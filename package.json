@@ -1,0 +1,53 @@
+{
+  "name": "vite-electron-builder",
+  "description": "simple react vite typescript template",
+  "version": "1.0.0",
+  "private": true,
+  "author": {
+    "email": "hezhiyufirst@gmail.com",
+    "name": "Henry He",
+    "url": "henry.super.site"
+  },
+  "main": "packages/main/dist/index.cjs",
+  "scripts": {
+    "build": "npm run build:main && npm run build:preload && npm run build:renderer",
+    "build:main": "cd ./packages/main && vite build",
+    "build:preload": "cd ./packages/preload && vite build",
+    "build:renderer": "cd ./packages/renderer && vite build",
+    "compile:mac": "cross-env MODE=production npm run build && electron-builder build --config .electron-builder.config.js --dir --config.asar=false",
+    "compile:win64": "cross-env MODE=production npm run build && electron-builder build --win --x64 --config .electron-builder.config.js",
+    "watch": "node scripts/watch.mjs",
+    "lint": "eslint . --ext js,mjs,cjs,ts,mts,cts,tsx,jsx",
+    "typecheck:main": "tsc --noEmit -p packages/main/tsconfig.json",
+    "typecheck:preload": "tsc --noEmit -p packages/preload/tsconfig.json",
+    "typecheck:renderer": "tsc --noEmit -p packages/renderer/tsconfig.json",
+    "typecheck": "npm run typecheck:main && npm run typecheck:preload && npm run typecheck:renderer",
+    "postinstall": "cross-env ELECTRON_RUN_AS_NODE=1 electron scripts/update-electron-vendors.mjs",
+    "format": "npx prettier --write \"**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx,json}\""
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "@types/node": "18.17.14",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "6.5.0",
+    "@vitejs/plugin-react": "^4.0.4",
+    "cross-env": "7.0.3",
+    "electron": "26.1.0",
+    "electron-builder": "24.6.4",
+    "eslint": "8.48.0",
+    "happy-dom": "10.11.2",
+    "nano-staged": "0.8.0",
+    "simple-git-hooks": "2.9.0",
+    "typescript": "5.2.2",
+    "unplugin-auto-expose": "0.0.5",
+    "vite": "4.4.9"
+  },
+  "dependencies": {
+    "electron-updater": "6.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
