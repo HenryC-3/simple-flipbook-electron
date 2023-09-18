@@ -12,6 +12,7 @@ https://unpkg.com/tailwindcss@3.3.3/src/css/preflight.css */
   border-width: 0; /* 2 */
   border-style: solid; /* 2 */
   border-color: theme('borderColor.DEFAULT', currentColor); /* 2 */
+  cursor: none !important
 }
 
 ::before,
@@ -36,6 +37,7 @@ html {
   font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
   font-feature-settings: theme('fontFamily.sans[1].fontFeatureSettings', normal); /* 5 */
   font-variation-settings: theme('fontFamily.sans[1].fontVariationSettings', normal); /* 6 */
+  user-select: none;
 }
 
 /*
