@@ -1,5 +1,5 @@
 {
-  "name": "vite-electron-builder",
+  "name": "xf-flipbook",
   "description": "simple react vite typescript template",
   "version": "1.0.0",
   "private": true,
@@ -43,11 +43,16 @@
     "simple-git-hooks": "2.9.0",
     "typescript": "5.2.2",
     "unplugin-auto-expose": "0.0.5",
-    "vite": "4.4.9"
+    "vite": "4.4.9",
+    "babel-plugin-styled-components": "^2.1.4"
   },
   "dependencies": {
-    "electron-updater": "6.1.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-pageflip": "^2.0.3",
+    "electron-updater": "6.1.4",
+    "@mui/icons-material": "^5.14.8",
+    "@mui/material": "^5.14.8",
+    "@mui/styled-engine-sc": "^5.14.8"
   }
 }
