@@ -3,6 +3,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
+import pagesPath from '../../public/config/book.json';
+
 
 const ToolbarWrapper = styled.div`
     display: flex;
@@ -63,7 +65,7 @@ export default function Toolbar({
 }) {
     const [sliderNumber, setSliderNumber] = useState(0);
     // TODO 从 server 获取数据
-    const [pageCount] = useState(17);
+    const [pageCount] = useState(pagesPath.length);
 
     const flipToPage = () => {
         // 自动翻页，翻过单张执行的速度 = 翻页动画速度

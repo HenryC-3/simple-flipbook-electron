@@ -11,9 +11,10 @@ const AppWrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100vh;
+    gap: 20px;
     overflow: hidden;
-    /* background: url(./bgs/leather.jpeg); */
-    background: url(./bgs/wood.jpg);
+    background: url(./bgs/leather.jpeg);
+    /* background: url(./bgs/wood.jpg); */
 `;
 
 function App() {
