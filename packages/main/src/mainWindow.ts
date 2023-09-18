@@ -1,8 +1,10 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, Menu} from 'electron';
 import {join, resolve} from 'node:path';
 
 async function createWindow() {
+  Menu.setApplicationMenu(null);
   const browserWindow = new BrowserWindow({
+    fullscreen: true,
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
     webPreferences: {
       nodeIntegration: false,
