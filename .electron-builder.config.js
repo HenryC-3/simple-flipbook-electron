@@ -9,25 +9,25 @@
  * @see https://www.electron.build/configuration/configuration
  */
 module.exports = async function () {
-  const {getVersion} = await import('./version/getVersion.mjs');
+	const {getVersion} = await import('./version/getVersion.mjs');
 
-  return {
-    directories: {
-      output: 'dist',
-      buildResources: 'buildResources',
-    },
-    files: ['packages/**/dist/**'],
-    extraMetadata: {
-      version: getVersion(),
-    },
+	return {
+		directories: {
+			output: 'dist',
+			buildResources: 'buildResources',
+		},
+		files: ['packages/**/dist/**'],
+		extraMetadata: {
+			version: getVersion(),
+		},
 
-    // more win options https://www.electron.build/configuration/win
-    win: {
-      target: ['nsis'],
-    },
-    // more nsis options https://www.electron.build/configuration/nsis
-    nsis: {
-      oneClick: false,
-    },
-  };
+		// more win options https://www.electron.build/configuration/win
+		win: {
+			target: ['nsis'],
+		},
+		// more nsis options https://www.electron.build/configuration/nsis
+		nsis: {
+			oneClick: false,
+		},
+	};
 };

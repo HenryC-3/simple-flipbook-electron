@@ -8,8 +8,8 @@ import {platform} from 'node:process';
  */
 const isSingleInstance = app.requestSingleInstanceLock();
 if (!isSingleInstance) {
-  app.quit();
-  process.exit(0);
+	app.quit();
+	process.exit(0);
 }
 app.on('second-instance', restoreOrCreateWindow);
 
@@ -22,9 +22,9 @@ app.on('second-instance', restoreOrCreateWindow);
  * Shout down background process if all windows was closed
  */
 app.on('window-all-closed', () => {
-  if (platform !== 'darwin') {
-    app.quit();
-  }
+	if (platform !== 'darwin') {
+		app.quit();
+	}
 });
 
 /**
@@ -35,10 +35,9 @@ app.on('activate', restoreOrCreateWindow);
 /**
  * Create the application window when the background process is ready.
  */
-app
-  .whenReady()
-  .then(restoreOrCreateWindow)
-  .catch(e => console.error('Failed create window:', e));
+app.whenReady()
+	.then(restoreOrCreateWindow)
+	.catch(e => console.error('Failed create window:', e));
 
 /**
  * Install react.js or any other extension in development mode only.
@@ -72,15 +71,14 @@ app
  * Like `npm run compile` does. It's ok 😅
  */
 if (import.meta.env.PROD) {
-  app
-    .whenReady()
-    .then(() =>
-      /**
-       * Here we forced to use `require` since electron doesn't fully support dynamic import in asar archives
-       * @see https://github.com/electron/electron/issues/38829
-       * Potentially it may be fixed by this https://github.com/electron/electron/pull/37535
-       */
-      require('electron-updater').autoUpdater.checkForUpdatesAndNotify(),
-    )
-    .catch(e => console.error('Failed check and install updates:', e));
+	app.whenReady()
+		.then(() =>
+			/**
+			 * Here we forced to use `require` since electron doesn't fully support dynamic import in asar archives
+			 * @see https://github.com/electron/electron/issues/38829
+			 * Potentially it may be fixed by this https://github.com/electron/electron/pull/37535
+			 */
+			require('electron-updater').autoUpdater.checkForUpdatesAndNotify(),
+		)
+		.catch(e => console.error('Failed check and install updates:', e));
 }
