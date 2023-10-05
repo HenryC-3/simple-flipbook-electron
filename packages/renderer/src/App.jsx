@@ -13,7 +13,7 @@ const AppWrapper = styled.div`
 	height: 100vh;
 	gap: 20px;
 	overflow: hidden;
-	background: url(./bgs/leather.jpeg);
+	background: url(./bgs/leather.jpeg); //TODO 从本地读取
 	/* background: url(./bgs/wood.jpg); */
 `;
 

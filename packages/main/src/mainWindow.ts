@@ -4,7 +4,7 @@ import {join, resolve} from 'node:path';
 async function createWindow() {
 	Menu.setApplicationMenu(null);
 	const browserWindow = new BrowserWindow({
-		fullscreen: true,
+		fullscreen: import.meta.env.DEV ? false : true,
 		show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
 		webPreferences: {
 			nodeIntegration: false,
@@ -68,6 +68,5 @@ export async function restoreOrCreateWindow() {
 	if (window.isMinimized()) {
 		window.restore();
 	}
-
-	window.focus();
+	if (import.meta.env.PROD) window.focus();
 }

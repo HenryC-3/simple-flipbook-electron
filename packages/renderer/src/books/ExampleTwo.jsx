@@ -2,7 +2,10 @@ import HTMLFlipBook from 'react-pageflip';
 import {useState} from 'react';
 import styled from 'styled-components';
 import {forwardRef} from 'react';
-import pagesPath from '../../public/config/book.json';
+// import pagesPath from '../../public/config/book.json';
+import {getImages} from '#preload';
+
+const images = await getImages();
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
@@ -46,8 +49,7 @@ const BookContent = styled.img`
 
 export const ExampleBookTwo = forwardRef(
 	({flippingTime, width = 395 * 1.75, height = 540 * 1.75}, ref) => {
-		const [pages] = useState(pagesPath);
-
+		const [pages] = useState(images);
 		return (
 			<StyledFlipBook
 				width={width}
