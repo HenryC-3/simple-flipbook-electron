@@ -2,10 +2,9 @@ import HTMLFlipBook from 'react-pageflip';
 import {useState} from 'react';
 import styled from 'styled-components';
 import {forwardRef} from 'react';
-// import pagesPath from '../../public/config/book.json';
-import {getImages} from '#preload';
+import {getBookPageImages} from '#preload';
 
-const images = await getImages();
+const images = await getBookPageImages();
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);

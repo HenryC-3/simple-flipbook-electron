@@ -2,6 +2,6 @@
  * @module preload
  */
 
-export {getImages, countImages} from './getImages';
-export {sha256sum} from './nodeCrypto';
-export {versions} from './versions';
+export {getBookPageImages, countBookPageNum} from './actions/getBookPages';
+export {sha256sum} from './actions/nodeCrypto';
+export {versions} from './actions/versions';

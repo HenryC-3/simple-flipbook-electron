@@ -3,9 +3,9 @@ import {useState} from 'react';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
-import {countImages} from '#preload';
+import {countBookPageNum} from '#preload';
 
-const amount = await countImages();
+const amount = await countBookPageNum();
 
 const ToolbarWrapper = styled.div`
 	display: flex;
