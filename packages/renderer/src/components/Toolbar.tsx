@@ -5,6 +5,13 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import {countBookPageNum} from '#preload';
 
+interface ToolbarOptions {
+	flipBookRef: React.MutableRefObject<any>;
+	autoFlipTime: number;
+	nextButtonClick: () => void;
+	prevButtonClick: () => void;
+}
+
 const bookPageAmount = await countBookPageNum();
 
 const ToolbarWrapper = styled.div`
@@ -58,7 +65,12 @@ const PrettoSlider = styled(Slider)({
 	},
 });
 
-export default function Toolbar({flipBookRef, flippingTime, nextButtonClick, prevButtonClick}) {
+export default function Toolbar({
+	flipBookRef,
+	autoFlipTime,
+	nextButtonClick,
+	prevButtonClick,
+}: ToolbarOptions) {
 	const [sliderNumber, setSliderNumber] = useState(0);
 	const [pageCount] = useState(bookPageAmount);
 
@@ -66,25 +78,15 @@ export default function Toolbar({flipBookRef, flippingTime, nextButtonClick, pre
 		// 自动翻页，翻过单张执行的速度 = 翻页动画速度
 		// NOTE: 通过 getCurrentPageIndex 只会获取到偶数位的 pageNumber，即 1246
 		const pageNumber = flipBookRef.current.pageFlip().getCurrentPageIndex() + 1;
-		let timerId;
+		let timerId: any;
 
-		const {count, swipeRight} = getFlipCount({
-			type: 'haveCover',
-			currentNum: pageNumber,
-			targetNum: sliderNumber,
-		});
+		const {count, swipeRight} = getFlipCount(pageNumber, sliderNumber);
 
-		autoSwipe({
-			count,
-			direction: swipeRight,
-			time: flippingTime,
-			actions: {right: nextButtonClick, left: prevButtonClick},
-		});
-
+		autoSwipe(count, swipeRight, autoFlipTime, {right: nextButtonClick, left: prevButtonClick});
 		/**
 		 * @description 返回一个对象，包含翻页的次数，翻页的方向
 		 */
-		function getFlipCount({type, currentNum, targetNum}) {
+		function getFlipCount(currentNum: number, targetNum: number) {
 			// NOTE 处理往回翻页，即目标页数小于当前页数的情况
 			let swipeRight;
 			if (targetNum < currentNum) {
@@ -93,31 +95,33 @@ export default function Toolbar({flipBookRef, flippingTime, nextButtonClick, pre
 				swipeRight = true;
 			}
 
-			// 有封面的情况下，前往目标页面需要翻动的次数
-			if (type == 'haveCover') {
-				const isOdd = sliderNumber % 2;
-				if (isOdd) {
-					return {
-						count: Math.abs(targetNum - 1 - currentNum) / 2,
-						swipeRight,
-					};
-				} else {
-					return {
-						count:
-							targetNum == 2 && currentNum == 1
-								? 1
-								: Math.abs(targetNum - currentNum) / 2,
-						swipeRight,
-					};
-				}
+			const isOdd = sliderNumber % 2;
+			if (isOdd) {
+				return {
+					count: Math.abs(targetNum - 1 - currentNum) / 2,
+					swipeRight,
+				};
+			} else {
+				return {
+					count:
+						targetNum == 2 && currentNum == 1
+							? 1
+							: Math.abs(targetNum - currentNum) / 2,
+					swipeRight,
+				};
 			}
 		}
 
 		/**
 		 * @description 根据方向(direction)，自动执行翻页(action)若干次(count), 每次间隔 time ms
 		 */
-		function autoSwipe({count, direction, time, actions}) {
-			let action;
+		function autoSwipe(
+			count: number,
+			direction: boolean,
+			time: number,
+			actions: {right: () => void; left: () => void},
+		) {
+			let action: () => void;
 			const {right, left} = actions;
 			if (direction) {
 				action = right;
@@ -140,24 +144,9 @@ export default function Toolbar({flipBookRef, flippingTime, nextButtonClick, pre
 				valueLabelDisplay="auto"
 				value={sliderNumber}
 				onChange={e => {
-					setSliderNumber(Number(e.target.value));
+					setSliderNumber(Number(e.target ? (e.target as HTMLInputElement).value : 0));
 				}}
 			/>
-			{/* <CssTextField
-                id="filled-basic"
-                label="页码"
-                variant="filled"
-                value={inputNumber}
-                onChange={(e) => {
-                    setInputNumber(Number(e.target.value));
-                }}
-            /> */}
-			{/* <Input
-                type="text"
-                value={inputNumber}
-                onChange={(e) => {
-                    setInputNumber(Number(e.target.value));
-                }}></Input> */}
 			<Button
 				variant="contained"
 				onClick={flipToPage}

@@ -46,42 +46,45 @@ const BookContent = styled.img`
 	width: 100%;
 `;
 
-export const ExampleBookTwo = forwardRef(
-	({flippingTime, width = 395 * 1.75, height = 540 * 1.75}, ref) => {
-		const [pages] = useState(images);
-		return (
-			<StyledFlipBook
-				width={width}
-				height={height}
-				flippingTime={flippingTime}
-				showCover={false}
-				ref={ref}
-			>
-				{/* BookCover */}
-				{/* BookContent */}
-				{pages.map((page, index) => {
-					const isOdd = (index + 1) % 2 !== 0;
-					if (isOdd) {
-						return (
-							<BookPageLeft key={page}>
-								<BookContent
-									src={page}
-									alt=""
-								/>
-							</BookPageLeft>
-						);
-					} else {
-						return (
-							<BookPageRight key={page}>
-								<BookContent
-									src={page}
-									alt=""
-								/>
-							</BookPageRight>
-						);
-					}
-				})}
-			</StyledFlipBook>
-		);
-	},
-);
+export const ExampleBookTwo = forwardRef<
+	HTMLElement,
+	{flippingTime?: number; width?: number; height?: number}
+>(({flippingTime = 1000, width = 395 * 1.75, height = 540 * 1.75}, ref) => {
+	const [pages] = useState(images);
+	return (
+		// TODO 移除 ts-ignore
+		// @ts-ignore
+		<StyledFlipBook
+			width={width}
+			height={height}
+			flippingTime={flippingTime}
+			showCover={false}
+			ref={ref}
+		>
+			{/* BookCover */}
+			{/* BookContent */}
+			{pages.map((page, index) => {
+				const isOdd = (index + 1) % 2 !== 0;
+				if (isOdd) {
+					return (
+						<BookPageLeft key={page}>
+							<BookContent
+								src={page}
+								alt=""
+							/>
+						</BookPageLeft>
+					);
+				} else {
+					return (
+						<BookPageRight key={page}>
+							<BookContent
+								src={page}
+								alt=""
+							/>
+						</BookPageRight>
+					);
+				}
+			})}
+		</StyledFlipBook>
+	);
+});

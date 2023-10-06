@@ -1,4 +1,4 @@
-import {forwardRef} from 'react';
+import {ReactNode, forwardRef} from 'react';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
@@ -9,6 +9,6 @@ const PageContainer = styled.div`
 	flex-direction: column;
 `;
 
-export const BookPage = forwardRef(({children}, ref) => {
+export const BookPage = forwardRef<HTMLDivElement, {children: ReactNode}>(({children}, ref) => {
 	return <PageContainer ref={ref}>{children}</PageContainer>;
 });

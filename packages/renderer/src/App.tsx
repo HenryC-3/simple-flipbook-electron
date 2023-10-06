@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
 import styled from 'styled-components';
-// import { ExampleBookOne } from "./views/ExampleOne";
 import {ExampleBookTwo} from './books/ExampleTwo';
 import {getBookBg} from '#preload';
 
@@ -21,9 +20,10 @@ const AppWrapper = styled.div`
 
 function App() {
 	const [flippingTime] = useState(1000);
-	const flipBookRef = useRef(null);
+	// TODO 移除 reactPageFlip 中的 any
+	const flipBookRef = useRef<any>(null);
 	const nextButtonClick = () => {
-		flipBookRef.current.pageFlip().flipNext();
+		if (flipBookRef.current) flipBookRef.current.pageFlip().flipNext();
 	};
 
 	const prevButtonClick = () => {
@@ -32,7 +32,6 @@ function App() {
 
 	return (
 		<AppWrapper>
-			{/* <ExampleBookOne ref={flipBookRef}></ExampleBookOne> */}
 			<ExampleBookTwo
 				ref={flipBookRef}
 				flippingTime={flippingTime}
@@ -40,7 +39,7 @@ function App() {
 			{flipBookRef ? (
 				<Toolbar
 					flipBookRef={flipBookRef}
-					flippingTime={flippingTime}
+					autoFlipTime={flippingTime}
 					nextButtonClick={nextButtonClick}
 					prevButtonClick={prevButtonClick}
 				></Toolbar>
