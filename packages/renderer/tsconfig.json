@@ -18,6 +18,13 @@
 		},
 		"lib": ["ESNext", "dom", "dom.iterable"]
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx", "types/**/*.d.ts", "../../types/**/*.d.ts"],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"types/**/*.d.ts",
+		"../../types/**/*.d.ts",
+		"src/**/*.jsx",
+		"src/**/*.js"
+	],
 	"exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }

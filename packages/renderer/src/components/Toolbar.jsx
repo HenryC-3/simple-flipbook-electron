@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import {countBookPageNum} from '#preload';
 
-const amount = await countBookPageNum();
+const bookPageAmount = await countBookPageNum();
 
 const ToolbarWrapper = styled.div`
 	display: flex;
@@ -60,7 +60,7 @@ const PrettoSlider = styled(Slider)({
 
 export default function Toolbar({flipBookRef, flippingTime, nextButtonClick, prevButtonClick}) {
 	const [sliderNumber, setSliderNumber] = useState(0);
-	const [pageCount] = useState(amount);
+	const [pageCount] = useState(bookPageAmount);
 
 	const flipToPage = () => {
 		// 自动翻页，翻过单张执行的速度 = 翻页动画速度

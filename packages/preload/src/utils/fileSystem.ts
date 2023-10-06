@@ -1,4 +1,5 @@
-import {readdir, readFile} from 'fs/promises';
+import {encodeFromFile} from '@snailycad/image-data-uri';
+import {readdir} from 'fs/promises';
 import {join, extname} from 'path';
 
 /**
@@ -7,27 +8,19 @@ import {join, extname} from 'path';
 export async function getImages(dirPath: string) {
 	// dirPath = import.meta.env.DEV ? join(__dirname, './pages') : join(__dirname, '../public/pages');
 	const filePaths = await getFullPaths(dirPath);
-	const images = [];
+	const imageDataURLs = [];
 
 	for (const filePath of filePaths) {
 		if (isImageFile(filePath)) {
 			try {
-				const fileContent = await readFile(filePath);
-				images.push({
-					path: filePath,
-					content: fileContent,
-				});
+				const url = await encodeFromFile(filePath);
+				imageDataURLs.push(url);
 			} catch (err) {
 				console.error('无法读取文件:', filePath, err);
 			}
 		}
 	}
-	return images.map(image => bufferToDataUrl(image.content));
-
-	function bufferToDataUrl(buffer: Buffer) {
-		const base64Str = buffer.toString('base64');
-		return 'data:image/jpeg;base64,' + base64Str;
-	}
+	return imageDataURLs;
 }
 
 /**

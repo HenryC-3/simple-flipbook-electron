@@ -4,6 +4,9 @@ import Toolbar from './components/Toolbar';
 import styled from 'styled-components';
 // import { ExampleBookOne } from "./views/ExampleOne";
 import {ExampleBookTwo} from './books/ExampleTwo';
+import {getBookBg} from '#preload';
+
+const bookBg = await getBookBg();
 
 const AppWrapper = styled.div`
 	display: flex;
@@ -13,8 +16,7 @@ const AppWrapper = styled.div`
 	height: 100vh;
 	gap: 20px;
 	overflow: hidden;
-	background: url(./bgs/leather.jpeg); //TODO 从本地读取
-	/* background: url(./bgs/wood.jpg); */
+	background: url(${bookBg[0]});
 `;
 
 function App() {
