@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import {countBookPageNum} from '#preload';

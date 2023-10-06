@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {ExampleBookTwo} from './books/ExampleTwo';
 import {getBookBg} from '#preload';
 

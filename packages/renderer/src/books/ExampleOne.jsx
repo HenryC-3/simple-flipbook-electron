@@ -1,7 +1,7 @@
 import HTMLFlipBook from 'react-pageflip';
 import {useState} from 'react';
 import backgroundImg from '../assets/background.jpg';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {BookPage} from '../components/BookPage';
 import {forwardRef} from 'react';
 

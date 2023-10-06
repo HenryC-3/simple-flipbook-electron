@@ -1,6 +1,6 @@
 import HTMLFlipBook from 'react-pageflip';
 import {useState} from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {forwardRef} from 'react';
 import {getBookPageImages} from '#preload';
 

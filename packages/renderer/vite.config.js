@@ -20,7 +20,6 @@ const config = {
 	resolve: {
 		alias: {
 			'/@/': join(PACKAGE_ROOT, 'src') + '/',
-			'@mui/styled-engine': '@mui/styled-engine-sc',
 		},
 	},
 	base: '',
