@@ -16,12 +16,14 @@ module.exports = async function () {
 			output: 'dist',
 			buildResources: 'buildResources',
 		},
-		// files: ['packages/**/dist/**'],
-		files: ['packages/**/dist/**'],
+		files: [
+			'packages/main/dist/**',
+			'packages/preload/dist/index.cjs',
+			'packages/renderer/dist/**',
+		],
 		extraResources: [
-			{from: 'packages/preload/dist/pages', to: './pages'},
-			{from: 'packages/preload/dist/bgs', to: './bgs'},
-			{from: 'packages/preload/dist/config.json', to: '.'},
+			{from: 'packages/preload/dist/config', to: './config'},
+			// NOTE 不要在 fileset 中使用 glob，会出现 file not found 错误，详见 https://github.com/electron-userland/electron-builder/issues/2693
 		],
 		extraMetadata: {
 			version: getVersion(),
