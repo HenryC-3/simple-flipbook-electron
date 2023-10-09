@@ -1,3 +1,4 @@
+// BUG: 注册方法有任何问题吗？ https://www.electronjs.org/docs/latest/api/protocol#using-protocol-with-a-custom-partition-or-session
 import {protocol, net} from 'electron';
 
 export function registerCustomProtocol() {

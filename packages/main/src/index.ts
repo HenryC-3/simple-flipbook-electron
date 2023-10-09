@@ -33,12 +33,13 @@ app.on('window-all-closed', () => {
  */
 app.on('activate', restoreOrCreateWindow);
 
+// BUG
 registerCustomProtocol();
 /**
  * Create the application window when the background process is ready.
  */
 app.whenReady()
-	.then(handleCustomProtocol)
+	.then(handleCustomProtocol) //BUG
 	.then(restoreOrCreateWindow)
 	.catch(e => console.error('Failed create window:', e));
 
