@@ -2,6 +2,7 @@ import {app} from 'electron';
 import './security-restrictions';
 import {restoreOrCreateWindow} from './actions/createMainWindow';
 import {platform} from 'node:process';
+import {handleCustomProtocol, registerCustomProtocol} from './actions/registerCustomProtocol';
 
 /**
  * Prevent electron from running multiple instances.
@@ -32,10 +33,12 @@ app.on('window-all-closed', () => {
  */
 app.on('activate', restoreOrCreateWindow);
 
+registerCustomProtocol();
 /**
  * Create the application window when the background process is ready.
  */
 app.whenReady()
+	.then(handleCustomProtocol)
 	.then(restoreOrCreateWindow)
 	.catch(e => console.error('Failed create window:', e));
 
