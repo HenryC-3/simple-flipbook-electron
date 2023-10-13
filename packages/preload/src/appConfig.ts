@@ -1,5 +1,5 @@
 export const appConfig = {
-	pagesDir: import.meta.env.DEV ? './config/pages' : '../../../../config/pages',
+	booksDir: import.meta.env.DEV ? './config/books' : '../../../../config/books',
 	bgsDir: import.meta.env.DEV ? './config/bgs' : '../../../../config/bgs',
 	configDir: import.meta.env.DEV ? './config/config.json' : '../../../../config/.',
 };

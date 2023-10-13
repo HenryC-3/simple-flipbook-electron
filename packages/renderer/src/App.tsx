@@ -3,9 +3,9 @@ import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
 import styled from '@emotion/styled';
 import {ExampleBookTwo} from './books/ExampleTwo';
-import {getBookBg} from '#preload';
+import {getAppBgs} from '#preload';
 
-const bookBg = await getBookBg();
+const bookBg = await getAppBgs();
 
 const AppWrapper = styled.div`
 	display: flex;

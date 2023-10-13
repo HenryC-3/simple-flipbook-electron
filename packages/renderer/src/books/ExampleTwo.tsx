@@ -2,19 +2,16 @@ import HTMLFlipBook from 'react-pageflip';
 import {useState} from 'react';
 import styled from '@emotion/styled';
 import {forwardRef} from 'react';
-import {getBookPageImages} from '#preload';
+import {getBookPageImages, getBooksPath, getBooksInfo} from '#preload';
 
-const images = await getBookPageImages();
+// TODO: 重构当前页面
+const paths = await getBooksPath();
+const booksInfo = await getBooksInfo();
+const images = await getBookPageImages(paths[0]);
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 `;
-
-// const BookCover = styled.div`
-//     box-shadow: inset 0 0 30px 0 rgba(36, 10, 3, 0.5),
-//         -2px 0 5px 2px rgba(0, 0, 0, 0.4);
-//     background-color: gray;
-// `;
 
 // NOTE 只有 div 才能应用 shadow，img 不可以
 const BookPageLeft = styled.div`
