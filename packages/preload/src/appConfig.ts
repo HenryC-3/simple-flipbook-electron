@@ -6,7 +6,8 @@ interface AppConfig {
 }
 const devConfig: AppConfig = {
 	booksDir: './config/books',
-	homeBg: './config/bgs/home.jpg',
+	// TODO: 识别 bg 文件夹下包含 home 的文件
+	homeBg: './config/bgs/home.png',
 	bookBg: './config/bgs/book.jpg',
 	configDir: './config/config.json',
 };

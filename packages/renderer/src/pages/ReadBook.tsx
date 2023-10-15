@@ -1,12 +1,13 @@
 import HTMLFlipBook from 'react-pageflip';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import {forwardRef} from 'react';
 import {getBookPageImages, getBooksPath} from '#preload';
+import {useStore} from '../store';
 
 // TODO: 重构当前页面
 const paths = await getBooksPath();
-const images = await getBookPageImages(paths[0]);
+// const images = await getBookPageImages(paths[0]);
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
@@ -46,7 +47,16 @@ export const ExampleBookTwo = forwardRef<
 	HTMLElement,
 	{flippingTime?: number; width?: number; height?: number}
 >(({flippingTime = 1000, width = 395 * 1.75, height = 540 * 1.75}, ref) => {
-	const [pages] = useState(images);
+	const [pages, setPages] = useState<string[]>();
+	const {currentBookPath} = useStore(state => state);
+
+	useEffect(() => {
+		const getData = async () => {
+			const data = await getBookPageImages(currentBookPath);
+			setPages(data);
+		};
+		getData();
+	}, [currentBookPath]);
 	return (
 		// TODO 移除 ts-ignore
 		// @ts-ignore
@@ -57,30 +67,31 @@ export const ExampleBookTwo = forwardRef<
 			showCover={false}
 			ref={ref}
 		>
-			{/* BookCover */}
 			{/* BookContent */}
-			{pages.map((page, index) => {
-				const isOdd = (index + 1) % 2 !== 0;
-				if (isOdd) {
-					return (
-						<BookPageLeft key={page}>
-							<BookContent
-								src={page}
-								alt=""
-							/>
-						</BookPageLeft>
-					);
-				} else {
-					return (
-						<BookPageRight key={page}>
-							<BookContent
-								src={page}
-								alt=""
-							/>
-						</BookPageRight>
-					);
-				}
-			})}
+			{pages
+				? pages.map((page, index) => {
+						const isOdd = (index + 1) % 2 !== 0;
+						if (isOdd) {
+							return (
+								<BookPageLeft key={page}>
+									<BookContent
+										src={page}
+										alt=""
+									/>
+								</BookPageLeft>
+							);
+						} else {
+							return (
+								<BookPageRight key={page}>
+									<BookContent
+										src={page}
+										alt=""
+									/>
+								</BookPageRight>
+							);
+						}
+				  })
+				: ''}
 		</StyledFlipBook>
 	);
 });

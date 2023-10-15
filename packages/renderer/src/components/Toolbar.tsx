@@ -165,6 +165,12 @@ export default function Toolbar({
 			>
 				下一页
 			</Button>
+			<Button
+				variant="contained"
+				onClick={nextButtonClick}
+			>
+				<a href="/">返回首页</a>
+			</Button>
 		</ToolbarWrapper>
 	);
 }

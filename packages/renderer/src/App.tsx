@@ -3,7 +3,7 @@ import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
 import BookShelf from './components/BookShelf';
 import styled from '@emotion/styled';
-import {ExampleBookTwo} from './pages/ExampleTwo';
+import {ExampleBookTwo} from './pages/ReadBook';
 import {getBookBg} from '#preload';
 
 const bookBg = await getBookBg();
