@@ -6,7 +6,6 @@ import {getBookPageImages, getBooksPath, getBooksInfo} from '#preload';
 
 // TODO: 重构当前页面
 const paths = await getBooksPath();
-const booksInfo = await getBooksInfo();
 const images = await getBookPageImages(paths[0]);
 
 const StyledFlipBook = styled(HTMLFlipBook)`

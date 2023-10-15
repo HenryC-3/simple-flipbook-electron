@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
+import BookShelf from './components/BookShelf';
 import styled from '@emotion/styled';
 import {ExampleBookTwo} from './books/ExampleTwo';
 import {getAppBgs} from '#preload';
@@ -18,6 +19,12 @@ const AppWrapper = styled.div`
 	background: url(${bookBg[0]});
 `;
 
+const StyledBookShelf = styled(BookShelf)`
+	z-index: 99;
+	position: absolute;
+	left: 0;
+`;
+
 function App() {
 	const [flippingTime] = useState(1000);
 	// TODO 移除 reactPageFlip 中的 any
@@ -32,6 +39,7 @@ function App() {
 
 	return (
 		<AppWrapper>
+			<StyledBookShelf></StyledBookShelf>
 			<ExampleBookTwo
 				ref={flipBookRef}
 				flippingTime={flippingTime}
