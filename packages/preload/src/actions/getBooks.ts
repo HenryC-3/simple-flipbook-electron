@@ -4,11 +4,11 @@ import {
 	getFullPaths,
 	getImagesDataURL,
 } from '../utils/fileSystem';
-import {appConfig} from '../appConfig';
+import {getAppConfig} from '../appConfig';
 import {basename, join} from 'path';
 import {lstatSync} from 'fs';
 
-const dirPath = join(__dirname, appConfig.booksDir);
+const dirPath = join(__dirname, getAppConfig().booksDir);
 
 export async function getBooksInfo() {
 	const booksPath = await getBooksPath();

@@ -3,10 +3,10 @@ import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
 import BookShelf from './components/BookShelf';
 import styled from '@emotion/styled';
-import {ExampleBookTwo} from './books/ExampleTwo';
-import {getAppBgs} from '#preload';
+import {ExampleBookTwo} from './pages/ExampleTwo';
+import {getBookBg} from '#preload';
 
-const bookBg = await getAppBgs();
+const bookBg = await getBookBg();
 
 const AppWrapper = styled.div`
 	display: flex;
@@ -16,7 +16,7 @@ const AppWrapper = styled.div`
 	height: 100vh;
 	gap: 20px;
 	overflow: hidden;
-	background: url(${bookBg[0]});
+	background: url(${bookBg});
 `;
 
 const StyledBookShelf = styled(BookShelf)`
