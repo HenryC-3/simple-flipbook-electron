@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import {getBookShelfConfig} from '../configs';
 import {useState} from 'react';
 import {getBooksInfo} from '#preload';
+import {useStore} from '../store';
 
 const booksInfo = await getBooksInfo();
 
@@ -82,6 +83,7 @@ const BookImage = styled.img`
 
 function Bookshelf({className}: BookShelfProps) {
 	const [isOpen, setIsOpen] = useState(false);
+	const {updatePath} = useStore(state => state);
 
 	return (
 		<Wrapper
@@ -97,7 +99,13 @@ function Bookshelf({className}: BookShelfProps) {
 				<BookshelfFrame>
 					{booksInfo.map(book => {
 						return (
-							<BookWrapper key={book.id}>
+							<BookWrapper
+								key={book.id}
+								onClick={() => {
+									console.log('click', book.path);
+									updatePath(book.path);
+								}}
+							>
 								<BookImage
 									src={book.cover}
 									alt={book.name}

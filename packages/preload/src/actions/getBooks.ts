@@ -49,7 +49,8 @@ export async function getBookPageImages(dirPath: string) {
 	return images;
 }
 
-export async function countBookPageNum() {
+// TODO: 重构合并入 getBookInfo 里
+export async function countBookPageNum(dirPath: string) {
 	const num = await countImages(dirPath);
 	return num;
 }

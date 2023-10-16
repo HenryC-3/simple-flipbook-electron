@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import {countBookPageNum} from '#preload';
+import {useStore} from '../store/index';
 
 interface ToolbarOptions {
 	flipBookRef: React.MutableRefObject<any>;
@@ -11,8 +12,6 @@ interface ToolbarOptions {
 	nextButtonClick: () => void;
 	prevButtonClick: () => void;
 }
-
-const bookPageAmount = await countBookPageNum();
 
 const ToolbarWrapper = styled.div`
 	display: flex;
@@ -72,7 +71,16 @@ export default function Toolbar({
 	prevButtonClick,
 }: ToolbarOptions) {
 	const [sliderNumber, setSliderNumber] = useState(0);
-	const [pageCount] = useState(bookPageAmount);
+	const [pageCount, setPageCount] = useState(0);
+	const {currentBookPath} = useStore(state => state);
+
+	useEffect(() => {
+		const getData = async () => {
+			const data = await countBookPageNum(currentBookPath);
+			setPageCount(data);
+		};
+		getData();
+	}, [currentBookPath]);
 
 	const flipToPage = () => {
 		// 自动翻页，翻过单张执行的速度 = 翻页动画速度

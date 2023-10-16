@@ -2,12 +2,8 @@ import HTMLFlipBook from 'react-pageflip';
 import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import {forwardRef} from 'react';
-import {getBookPageImages, getBooksPath} from '#preload';
+import {getBookPageImages} from '#preload';
 import {useStore} from '../store';
-
-// TODO: 重构当前页面
-const paths = await getBooksPath();
-// const images = await getBookPageImages(paths[0]);
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
@@ -51,16 +47,21 @@ export const ExampleBookTwo = forwardRef<
 	const {currentBookPath} = useStore(state => state);
 
 	useEffect(() => {
+		console.log('book start update');
+		console.log('currentBookPath', currentBookPath);
 		const getData = async () => {
 			const data = await getBookPageImages(currentBookPath);
+			console.log('data', data);
 			setPages(data);
 		};
 		getData();
 	}, [currentBookPath]);
+
 	return (
+		// BUG: React Router caught the following error during render DOMException: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
 		// TODO 移除 ts-ignore
 		// @ts-ignore
-		<StyledFlipBook
+		<HTMLFlipBook
 			width={width}
 			height={height}
 			flippingTime={flippingTime}
@@ -73,7 +74,7 @@ export const ExampleBookTwo = forwardRef<
 						const isOdd = (index + 1) % 2 !== 0;
 						if (isOdd) {
 							return (
-								<BookPageLeft key={page}>
+								<BookPageLeft key={index}>
 									<BookContent
 										src={page}
 										alt=""
@@ -92,6 +93,6 @@ export const ExampleBookTwo = forwardRef<
 						}
 				  })
 				: ''}
-		</StyledFlipBook>
+		</HTMLFlipBook>
 	);
 });
