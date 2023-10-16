@@ -1,7 +1,8 @@
 import {app} from 'electron';
-import './security-restrictions';
-import {restoreOrCreateWindow} from '/@/mainWindow';
+import './actions/setSecurityRestrictions';
+import {restoreOrCreateWindow} from './actions/restoreOrCreateWindow';
 import {platform} from 'node:process';
+import {handleFileProtocol, setProtocol} from './actions/registerCustomProtocol';
 
 /**
  * Prevent electron from running multiple instances.
@@ -12,11 +13,6 @@ if (!isSingleInstance) {
 	process.exit(0);
 }
 app.on('second-instance', restoreOrCreateWindow);
-
-/**
- * Disable Hardware Acceleration to save more system resources.
- */
-// app.disableHardwareAcceleration();
 
 /**
  * Shout down background process if all windows was closed
@@ -32,34 +28,14 @@ app.on('window-all-closed', () => {
  */
 app.on('activate', restoreOrCreateWindow);
 
+setProtocol();
 /**
  * Create the application window when the background process is ready.
  */
 app.whenReady()
+	.then(handleFileProtocol)
 	.then(restoreOrCreateWindow)
 	.catch(e => console.error('Failed create window:', e));
-
-/**
- * Install react.js or any other extension in development mode only.
- * Note: You must install `electron-devtools-installer` manually
- */
-// if (import.meta.env.DEV) {
-//   app
-//     .whenReady()
-//     .then(() => import('electron-devtools-installer'))
-//     .then(module => {
-//       const {default: installExtension, REACT_DEVELOPER_TOOLS} =
-//         // @ts-expect-error Hotfix for https://github.com/cawa-93/vite-electron-builder/issues/915
-//         typeof module.default === 'function' ? module : (module.default as typeof module);
-//
-//       return installExtension(REACT_DEVELOPER_TOOLS, {
-//         loadExtensionOptions: {
-//           allowFileAccess: true,
-//         },
-//       });
-//     })
-//     .catch(e => console.error('Failed install extension:', e));
-// }
 
 /**
  * Check for app updates, install it in background and notify user that new version was installed.

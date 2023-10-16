@@ -3,6 +3,7 @@ import {
 	getFirstImageDataURL,
 	getFullPaths,
 	getImagesDataURL,
+	isImageFile,
 } from '../utils/fileSystem';
 import {getAppConfig} from '../appConfig';
 import {basename, join} from 'path';
@@ -53,4 +54,12 @@ export async function getBookPageImages(dirPath: string) {
 export async function countBookPageNum(dirPath: string) {
 	const num = await countImages(dirPath);
 	return num;
+}
+
+export async function getImagePaths(dirPath: string) {
+	// dirPath = import.meta.env.DEV ? join(__dirname, './pages') : join(__dirname, '../public/pages');
+	const filePaths = await getFullPaths(dirPath);
+	return filePaths.filter(isImageFile).map(path => {
+		return 'item://' + path;
+	});
 }

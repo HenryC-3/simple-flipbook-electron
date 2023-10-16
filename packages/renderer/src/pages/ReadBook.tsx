@@ -2,9 +2,8 @@ import HTMLFlipBook from 'react-pageflip';
 import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import {forwardRef} from 'react';
-import {getBookPageImages} from '#preload';
+import {getImagePaths} from '#preload';
 import {useStore} from '../store';
-
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
@@ -49,7 +48,7 @@ export const ExampleBookTwo = forwardRef<
 
 	useEffect(() => {
 		const getData = async () => {
-			const data = await getBookPageImages(currentBookPath);
+			const data = await getImagePaths(currentBookPath);
 			setPages(data);
 		};
 		getData();
