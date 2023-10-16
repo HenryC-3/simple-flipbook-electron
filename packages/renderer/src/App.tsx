@@ -52,7 +52,7 @@ function App() {
 					prevButtonClick={prevButtonClick}
 				></Toolbar>
 			) : (
-				<></>
+				''
 			)}
 		</AppWrapper>
 	);

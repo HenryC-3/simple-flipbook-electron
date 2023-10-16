@@ -5,6 +5,7 @@ import {forwardRef} from 'react';
 import {getBookPageImages} from '#preload';
 import {useStore} from '../store';
 
+
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 `;
@@ -47,11 +48,8 @@ export const ExampleBookTwo = forwardRef<
 	const {currentBookPath} = useStore(state => state);
 
 	useEffect(() => {
-		console.log('book start update');
-		console.log('currentBookPath', currentBookPath);
 		const getData = async () => {
 			const data = await getBookPageImages(currentBookPath);
-			console.log('data', data);
 			setPages(data);
 		};
 		getData();
@@ -61,7 +59,10 @@ export const ExampleBookTwo = forwardRef<
 		// BUG: React Router caught the following error during render DOMException: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
 		// TODO 移除 ts-ignore
 		// @ts-ignore
-		<HTMLFlipBook
+
+		<StyledFlipBook
+			// NOTE 当书籍路径发生变化时，强迫翻书部分渲染
+			key={currentBookPath}
 			width={width}
 			height={height}
 			flippingTime={flippingTime}
@@ -74,25 +75,31 @@ export const ExampleBookTwo = forwardRef<
 						const isOdd = (index + 1) % 2 !== 0;
 						if (isOdd) {
 							return (
-								<BookPageLeft key={index}>
-									<BookContent
-										src={page}
-										alt=""
-									/>
-								</BookPageLeft>
+								// NOTE 规避 https://bobbyhafdz.com/blog/javascript-failed-to-execute-remove-child-on-node
+								// NOTE 不能给 div 添加 key，给 dev 添加 key 后会立刻报错
+								<div>
+									<BookPageLeft>
+										<BookContent
+											src={page}
+											alt=""
+										/>
+									</BookPageLeft>
+								</div>
 							);
 						} else {
 							return (
-								<BookPageRight key={page}>
-									<BookContent
-										src={page}
-										alt=""
-									/>
-								</BookPageRight>
+								<div>
+									<BookPageRight>
+										<BookContent
+											src={page}
+											alt=""
+										/>
+									</BookPageRight>
+								</div>
 							);
 						}
 				  })
 				: ''}
-		</HTMLFlipBook>
+		</StyledFlipBook>
 	);
 });
