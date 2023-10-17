@@ -1,6 +1,7 @@
 import {encodeFromFile} from '@snailycad/image-data-uri';
 import {readdir} from 'fs/promises';
 import {join, extname} from 'path';
+import sizeOf from 'image-size';
 
 /**
  * @description 获取书页文件夹下的所有图片文件的 dataURL
@@ -40,6 +41,11 @@ export async function getFullPaths(dirPath: string) {
 export async function getFirstImageDataURL(dirPath: string) {
 	const filePaths = (await getFullPaths(dirPath)).filter(isImageFile);
 	return encodeFromFile(filePaths[0]);
+}
+
+export async function getFirstImageWH(dirPath: string) {
+	const filePaths = (await getFullPaths(dirPath)).filter(isImageFile);
+	return sizeOf(filePaths[1]);
 }
 
 export function isImageFile(filePath: string) {

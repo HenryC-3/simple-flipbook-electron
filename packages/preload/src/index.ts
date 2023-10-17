@@ -2,6 +2,7 @@
  * @module preload
  */
 
+export {getFirstImageWH} from './utils/fileSystem';
 export {
 	getBookPageImages,
 	countBookPageNum,

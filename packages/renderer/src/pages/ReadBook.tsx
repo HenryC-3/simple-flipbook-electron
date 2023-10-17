@@ -2,7 +2,7 @@ import HTMLFlipBook from 'react-pageflip';
 import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import {forwardRef} from 'react';
-import {getImagePaths} from '#preload';
+import {getImagePaths, getFirstImageWH} from '#preload';
 import {useStore} from '../store';
 
 const StyledFlipBook = styled(HTMLFlipBook)`
@@ -34,7 +34,8 @@ const BookPageRight = styled.div`
 		width: 100%;
 	}
 `;
-const BookContent = styled.img`
+// TODO 设置图片宽高
+const BookContent = styled.img<{width?: number; height?: number}>`
 	height: 100%;
 	width: 100%;
 `;

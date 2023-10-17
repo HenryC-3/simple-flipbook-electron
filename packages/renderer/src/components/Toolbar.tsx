@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import {countBookPageNum} from '#preload';
 import {useStore} from '../store/index';
-import SettingsIcon from '@mui/icons-material/Settings';
+import {Link} from 'react-router-dom';
 
 interface ToolbarOptions {
 	flipBookRef: React.MutableRefObject<any>;
@@ -213,7 +213,7 @@ export default function Toolbar({
 					variant="contained"
 					onClick={nextButtonClick}
 				>
-					<a href="/">返回首页</a>
+					<Link to={'/'}>返回首页</Link>
 				</Button>
 			</ToolbarWrapper>
 		</Wrapper>

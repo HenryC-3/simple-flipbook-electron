@@ -14,6 +14,7 @@ export async function getBookBg() {
 export async function getBgsPath() {
 	const paths = await getFullPaths(join(__dirname, getAppConfig().bgDir));
 	return paths.map(path => {
+		console.log(path);
 		return 'item://' + path;
 	});
 }

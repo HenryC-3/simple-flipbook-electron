@@ -1,6 +1,7 @@
 import {
 	countImages,
 	getFirstImageDataURL,
+	getFirstImageWH,
 	getFullPaths,
 	getImagesDataURL,
 	isImageFile,
@@ -8,10 +9,11 @@ import {
 import {getAppConfig} from '../appConfig';
 import {basename, join} from 'path';
 import {lstatSync} from 'fs';
+import type {BooksInfo} from '../types';
 
 const dirPath = join(__dirname, getAppConfig().booksDir);
 
-export async function getBooksInfo() {
+export async function getBooksInfo(): Promise<BooksInfo[]> {
 	const booksPath = await getBooksPath();
 	const res = booksPath
 		.filter(path => {
@@ -26,11 +28,13 @@ export async function getBooksInfo() {
 		.map(async path => {
 			const [id, name] = basename(path).split('-');
 			const cover = await getFirstImageDataURL(path); // 使用第一张图片作为书籍封面
+			const dimension = await getFirstImageWH(path);
 			return {
 				id: Number(id),
 				name,
 				path,
 				cover,
+				dimension,
 			};
 		});
 	return Promise.all(res);
@@ -60,6 +64,7 @@ export async function getImagePaths(dirPath: string) {
 	// dirPath = import.meta.env.DEV ? join(__dirname, './pages') : join(__dirname, '../public/pages');
 	const filePaths = await getFullPaths(dirPath);
 	return filePaths.filter(isImageFile).map(path => {
+		console.log(path);
 		return 'item://' + path;
 	});
 }
