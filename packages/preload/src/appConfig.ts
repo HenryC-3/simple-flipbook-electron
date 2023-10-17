@@ -17,8 +17,10 @@ export function getAppConfig(): AppConfig {
 		return devConfig;
 	}
 
-	return Object.keys(devConfig).reduce((acc, key) => {
+	const prodConfig = Object.keys(devConfig).reduce((acc, key) => {
 		acc[key as keyof AppConfig] = '../../../.' + devConfig[key as keyof AppConfig];
 		return acc;
 	}, {} as AppConfig);
+	console.log('prodConfig', prodConfig);
+	return prodConfig;
 }

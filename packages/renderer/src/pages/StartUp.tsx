@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import {getHomeBg} from '#preload';
+import {Link} from 'react-router-dom';
 
 const bg = await getHomeBg();
 
@@ -78,7 +79,9 @@ export function StartUp() {
 	return (
 		<AppWrapper>
 			<StyledButton>
-				<a href="./book">进入互动翻书</a>
+				{/* <Route path="/book">进入互动翻书</Route> */}
+				{/* <a href="/book">进入互动翻书</a> */}
+				<Link to={'/book'}>进入互动翻书</Link>
 			</StyledButton>
 		</AppWrapper>
 	);

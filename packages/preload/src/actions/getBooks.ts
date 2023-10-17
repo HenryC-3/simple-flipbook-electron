@@ -10,6 +10,7 @@ import {basename, join} from 'path';
 import {lstatSync} from 'fs';
 
 const dirPath = join(__dirname, getAppConfig().booksDir);
+console.log('dirPath', dirPath);
 
 export async function getBooksInfo() {
 	const booksPath = await getBooksPath();
