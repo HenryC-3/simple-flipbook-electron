@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import {countBookPageNum} from '#preload';
 import {useStore} from '../store/index';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 interface ToolbarOptions {
 	flipBookRef: React.MutableRefObject<any>;
@@ -13,10 +14,36 @@ interface ToolbarOptions {
 	prevButtonClick: () => void;
 }
 
-const ToolbarWrapper = styled.div`
+const Wrapper = styled.div<{isOpen: boolean}>`
+	/* background-color: #334942; */
+	/* inner layout */
 	display: flex;
-	margin: 10px;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+
+	/* layout */
+	position: absolute;
+	bottom: 0;
+
+	transform: ${props => (props.isOpen ? 'translateY(0%)' : `translateY(55%)`)};
+	transition: all 0.3s ease-in-out;
+`;
+const StyledIcon = styled.div`
+	width: 10rem;
+	height: 3rem;
+	background: #334942;
+	border: 2px solid dark;
+	border-radius: 40% 40%;
+	transform: translateY(40%);
+`;
+
+const ToolbarWrapper = styled.div`
+	background-color: #334942;
+	padding: 20px 40px;
+	display: flex;
 	gap: 0.5rem;
+	border-radius: 20px 20px 0px 0px;
 `;
 
 const PrettoSlider = styled(Slider)({
@@ -73,6 +100,7 @@ export default function Toolbar({
 	const [sliderNumber, setSliderNumber] = useState(0);
 	const [pageCount, setPageCount] = useState(0);
 	const {currentBookPath} = useStore(state => state);
+	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
 		const getData = async () => {
@@ -145,40 +173,49 @@ export default function Toolbar({
 		}
 	};
 	return (
-		<ToolbarWrapper>
-			<PrettoSlider
-				aria-label="Default"
-				max={pageCount}
-				valueLabelDisplay="auto"
-				value={sliderNumber}
-				onChange={e => {
-					setSliderNumber(Number(e.target ? (e.target as HTMLInputElement).value : 0));
+		<Wrapper isOpen={isOpen}>
+			<StyledIcon
+				onClick={() => {
+					setIsOpen(!isOpen);
 				}}
-			/>
-			<Button
-				variant="contained"
-				onClick={flipToPage}
-			>
-				跳转
-			</Button>
-			<Button
-				variant="contained"
-				onClick={prevButtonClick}
-			>
-				上一页
-			</Button>
-			<Button
-				variant="contained"
-				onClick={nextButtonClick}
-			>
-				下一页
-			</Button>
-			<Button
-				variant="contained"
-				onClick={nextButtonClick}
-			>
-				<a href="/">返回首页</a>
-			</Button>
-		</ToolbarWrapper>
+			></StyledIcon>
+			<ToolbarWrapper>
+				<PrettoSlider
+					aria-label="Default"
+					max={pageCount}
+					valueLabelDisplay="auto"
+					value={sliderNumber}
+					onChange={e => {
+						setSliderNumber(
+							Number(e.target ? (e.target as HTMLInputElement).value : 0),
+						);
+					}}
+				/>
+				<Button
+					variant="contained"
+					onClick={flipToPage}
+				>
+					跳转
+				</Button>
+				<Button
+					variant="contained"
+					onClick={prevButtonClick}
+				>
+					上一页
+				</Button>
+				<Button
+					variant="contained"
+					onClick={nextButtonClick}
+				>
+					下一页
+				</Button>
+				<Button
+					variant="contained"
+					onClick={nextButtonClick}
+				>
+					<a href="/">返回首页</a>
+				</Button>
+			</ToolbarWrapper>
+		</Wrapper>
 	);
 }

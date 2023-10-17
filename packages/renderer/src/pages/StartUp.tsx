@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import {getHomeBg, getBgsPath} from '#preload';
+import {getBgsPath} from '#preload';
 import {Link} from 'react-router-dom';
 import BackHandIcon from '@mui/icons-material/BackHand';
 
