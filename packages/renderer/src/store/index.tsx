@@ -1,16 +1,19 @@
 import {create} from 'zustand';
-import {getBooksPath} from '#preload';
+import {getBooksPath, getBgsPath} from '#preload';
 
-const paths = await getBooksPath();
+const bookPaths = await getBooksPath();
+const bgPaths = await getBgsPath();
 interface Store {
 	bookPaths: string[];
+	bgPaths: string[];
 	currentBookPath: string;
 	updatePath: (path: string) => void;
 }
 
 export const useStore = create<Store>()(set => ({
-	bookPaths: paths,
-	currentBookPath: paths[0],
+	bookPaths: bookPaths,
+	bgPaths: bgPaths,
+	currentBookPath: bookPaths[0],
 	updatePath: (path: string) => {
 		set(state => {
 			return {

@@ -9,6 +9,6 @@ export {
 	getImagePaths,
 	getBooksInfo,
 } from './actions/getBooks';
-export {getHomeBg, getBookBg} from './actions/getBgs';
+export {getHomeBg, getBookBg, getBgsPath} from './actions/getBgs';
 export {sha256sum} from './actions/nodeCrypto';
 export {versions} from './actions/versions';

@@ -1,5 +1,6 @@
 interface AppConfig {
 	booksDir: string;
+	bgDir: string;
 	homeBg: string;
 	bookBg: string;
 	configDir: string;
@@ -7,6 +8,7 @@ interface AppConfig {
 const devConfig: AppConfig = {
 	booksDir: './config/books',
 	// TODO: 识别 bg 文件夹下包含 home 的文件
+	bgDir: './config/bgs',
 	homeBg: './config/bgs/home.png',
 	bookBg: './config/bgs/book.jpg',
 	configDir: './config/config.json',

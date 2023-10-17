@@ -1,20 +1,33 @@
 import styled from '@emotion/styled';
-import {getHomeBg} from '#preload';
+import {getHomeBg, getBgsPath} from '#preload';
 import {Link} from 'react-router-dom';
+import BackHandIcon from '@mui/icons-material/BackHand';
 
-const bg = await getHomeBg();
+// const bg = await getHomeBg();
+const paths = (await getBgsPath()).filter(path => {
+	return path.includes('home');
+});
 
 const AppWrapper = styled.div`
-	background: darkblue;
+	background: dark;
 	width: 100vw;
 	height: 100vh;
-	background-image: url(${bg});
+	background-image: url(${paths[1]});
 	background-size: cover;
 
 	/* layout */
 	display: flex;
 	justify-content: center;
 	align-items: center;
+`;
+
+const StyledIcon = styled(BackHandIcon)`
+	color: rgba(148, 176, 199, 0.7);
+	height: 5rem;
+	width: 5rem;
+	z-index: 99;
+	position: absolute;
+	bottom: 1rem;
 `;
 
 const StyledButton = styled.div`
@@ -79,10 +92,28 @@ export function StartUp() {
 	return (
 		<AppWrapper>
 			<StyledButton>
-				{/* <Route path="/book">进入互动翻书</Route> */}
-				{/* <a href="/book">进入互动翻书</a> */}
+				<StyledIcon></StyledIcon>
 				<Link to={'/book'}>进入互动翻书</Link>
 			</StyledButton>
+			<video
+				playsInline
+				autoPlay
+				muted
+				loop
+				style={{
+					objectFit: 'cover',
+					width: '100vw',
+					height: '100vh',
+					position: 'fixed',
+					top: 0,
+					left: 0,
+				}}
+			>
+				<source
+					src={paths[1]}
+					type="video/mp4"
+				/>
+			</video>
 		</AppWrapper>
 	);
 }
