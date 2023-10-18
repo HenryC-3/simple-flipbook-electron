@@ -3,7 +3,7 @@ import {join, resolve} from 'node:path';
 
 async function createWindow() {
 	// TODO 关闭菜单栏
-	// Menu.setApplicationMenu(null);f
+	Menu.setApplicationMenu(null);
 	const browserWindow = new BrowserWindow({
 		fullscreen: import.meta.env.DEV ? false : true,
 		show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.

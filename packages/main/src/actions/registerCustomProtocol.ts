@@ -24,11 +24,11 @@ export function handleFileProtocol() {
 
 		// 获取文件路径，去掉 'item://' 前缀
 		const filePath = decodeURI(url.substr(7));
+		// NOTE： 在 windows 上 url 的盘符会消失，例如 e:/folder/a.txt 会变成
+		const winFilePath = (filePath.charAt(0) + ':' + filePath.substring(1)).replace(/\//g, '\\');
 
 		// 在 Windows 上将斜杠替换为反斜杠
-		const normalizedPath =
-			process.platform === 'win32' ? filePath.replace(/\//g, '\\') : filePath;
+		const normalizedPath = process.platform === 'win32' ? winFilePath : filePath;
 		callback(normalizedPath);
-		console.log(normalizedPath);
 	});
 }
