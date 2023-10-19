@@ -83,7 +83,7 @@ const BookImage = styled.img`
 
 function Bookshelf({className}: BookShelfProps) {
 	const [isOpen, setIsOpen] = useState(false);
-	const {updatePath} = useStore(state => state);
+	const {updatePath, updateFlag} = useStore(state => state);
 
 	return (
 		<Wrapper
@@ -102,7 +102,6 @@ function Bookshelf({className}: BookShelfProps) {
 							<BookWrapper
 								key={book.id}
 								onClick={() => {
-									console.log('click', book.path);
 									updatePath(book.path);
 								}}
 							>

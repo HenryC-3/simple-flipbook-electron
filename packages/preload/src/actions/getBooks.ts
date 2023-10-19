@@ -1,6 +1,6 @@
 import {
 	countImages,
-	getFirstImageDataURL,
+	getFirstImageURL,
 	getFirstImageWH,
 	getFullPaths,
 	getImagesDataURL,
@@ -8,7 +8,7 @@ import {
 } from '../utils/fileSystem';
 import {getAppConfig} from '../appConfig';
 import {basename, join} from 'path';
-import {lstatSync} from 'fs';
+import {lstatSync, existsSync} from 'fs';
 import type {BooksInfo} from '../types';
 
 const dirPath = join(__dirname, getAppConfig().booksDir);
@@ -27,7 +27,7 @@ export async function getBooksInfo(): Promise<BooksInfo[]> {
 		})
 		.map(async path => {
 			const [id, name] = basename(path).split('-');
-			const cover = await getFirstImageDataURL(path); // 使用第一张图片作为书籍封面
+			const cover = await getCover(path);
 			const dimension = await getFirstImageWH(path);
 			return {
 				id: Number(id),
@@ -38,6 +38,18 @@ export async function getBooksInfo(): Promise<BooksInfo[]> {
 			};
 		});
 	return Promise.all(res);
+
+	async function getCover(path: string) {
+		const cover = await getFirstImageURL(path); // 使用第一张图片作为书籍封面
+		const coverInFolder = existsSync(join(path, './cover'))
+			? await getFirstImageURL(join(path, './cover'))
+			: '';
+
+		console.log('coverInFolder', coverInFolder);
+		console.log('cover', cover);
+
+		return coverInFolder ? coverInFolder : cover;
+	}
 }
 
 export async function getBooksPath() {
@@ -64,7 +76,6 @@ export async function getImagePaths(dirPath: string) {
 	// dirPath = import.meta.env.DEV ? join(__dirname, './pages') : join(__dirname, '../public/pages');
 	const filePaths = await getFullPaths(dirPath);
 	return filePaths.filter(isImageFile).map(path => {
-		console.log(path);
 		return 'item://' + path;
 	});
 }

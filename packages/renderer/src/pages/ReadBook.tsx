@@ -46,9 +46,20 @@ export const FlipBook = forwardRef<
 	{flippingTime?: number; width?: number; height?: number}
 >(({flippingTime = 1000}, ref) => {
 	const [pages, setPages] = useState<string[]>();
-	const {currentBookPath} = useStore(state => state);
-	const [h, setHeight] = useState(1080 * 0.92);
-	const [w, setWidth] = useState((1920 / 2) * 0.92);
+	const {
+		currentBookPath,
+		currentBookHeight,
+		currentBookWidth,
+		reRenderFlag,
+		updateWidth,
+		updateFlag,
+	} = useStore(state => state);
+	console.log('--------------component----------------');
+	console.log('FlipBook component');
+	console.log('reRenderFlag', reRenderFlag);
+	console.log('currentBookHeight', currentBookHeight);
+	console.log('currentBookWidth', currentBookWidth);
+	console.log('--------------component----------------');
 
 	useEffect(() => {
 		const getData = async () => {
@@ -56,22 +67,34 @@ export const FlipBook = forwardRef<
 			const {height, width} = await getFirstImageWH(currentBookPath);
 			setPages(pages);
 			if (height && width) {
-				setWidth((h / 1080) * 0.92 * w);
+				updateWidth(((1080 * 0.9) / height) * width);
+				// NOTE: 改变 width 之后必须强迫 reactPageFLip.HTMLFlipBook 重新渲染，否则数值不会生效
+				updateFlag();
 			}
+			console.log('--------------useEffect--------------------');
+			console.log('currentBookPath', currentBookPath);
+			console.log(`(${height} / 1080 / 0.9) * ${width}`);
+			//@ts-ignore
+			console.log('width', ((1080 * 0.9) / height) * width);
+			console.log('height', currentBookHeight);
+			console.log('--------------useEffect--------------------');
 		};
 		getData();
 	}, [currentBookPath]);
 
-	return (
+	return currentBookWidth && currentBookHeight ? (
 		// BUG: React Router caught the following error during render DOMException: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
 		// TODO 移除 ts-ignore
 		// @ts-ignore
-
 		<StyledFlipBook
 			// NOTE 当书籍路径发生变化时，强迫翻书部分渲染
-			key={currentBookPath + height + width}
-			width={w}
-			height={h}
+			key={reRenderFlag}
+			width={currentBookWidth}
+			height={currentBookHeight}
+			// minHeight={currentBookHeight}
+			// minWidth={currentBookWidth}
+			// maxHeight={currentBookHeight * 2}
+			// maxWidth={currentBookWidth * 2}
 			flippingTime={flippingTime}
 			showCover={false}
 			ref={ref}
@@ -110,5 +133,7 @@ export const FlipBook = forwardRef<
 				  })
 				: ''}
 		</StyledFlipBook>
+	) : (
+		''
 	);
 });

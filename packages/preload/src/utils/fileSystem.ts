@@ -38,9 +38,9 @@ export async function getFullPaths(dirPath: string) {
 	return filePaths;
 }
 
-export async function getFirstImageDataURL(dirPath: string) {
+export async function getFirstImageURL(dirPath: string) {
 	const filePaths = (await getFullPaths(dirPath)).filter(isImageFile);
-	return encodeFromFile(filePaths[0]);
+	return filePaths[0] ? 'item://' + filePaths[0] : undefined;
 }
 
 export async function getFirstImageWH(dirPath: string) {

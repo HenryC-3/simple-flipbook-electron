@@ -4,6 +4,6 @@ export interface BooksInfo {
 	id: number;
 	name: string;
 	path: string;
-	cover: string;
+	cover: string | undefined;
 	dimension: ISizeCalculationResult;
 }
