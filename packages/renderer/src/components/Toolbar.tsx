@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
-import {countBookPageNum} from '#preload';
+import {countBookPageNum, quiteApp} from '#preload';
 import {useStore} from '../store/index';
 import {Link} from 'react-router-dom';
 
@@ -14,7 +14,7 @@ interface ToolbarOptions {
 	prevButtonClick: () => void;
 }
 
-const Wrapper = styled.div<{isOpen: boolean}>`
+const ToolbarContainer = styled.div<{isOpen: boolean}>`
 	/* background-color: #334942; */
 	/* inner layout */
 	display: flex;
@@ -29,7 +29,7 @@ const Wrapper = styled.div<{isOpen: boolean}>`
 	transform: ${props => (props.isOpen ? 'translateY(0%)' : `translateY(55%)`)};
 	transition: all 0.3s ease-in-out;
 `;
-const StyledIcon = styled.div`
+const Dragger = styled.div`
 	width: 10rem;
 	height: 3rem;
 	background: #334942;
@@ -38,7 +38,7 @@ const StyledIcon = styled.div`
 	transform: translateY(40%);
 `;
 
-const ToolbarWrapper = styled.div`
+const ButtonGroup = styled.div`
 	background-color: #334942;
 	padding: 20px 40px;
 	display: flex;
@@ -172,14 +172,18 @@ export default function Toolbar({
 			}, time);
 		}
 	};
+	function handleQuite() {
+		quiteApp();
+	}
+
 	return (
-		<Wrapper isOpen={isOpen}>
-			<StyledIcon
+		<ToolbarContainer isOpen={isOpen}>
+			<Dragger
 				onClick={() => {
 					setIsOpen(!isOpen);
 				}}
-			></StyledIcon>
-			<ToolbarWrapper>
+			></Dragger>
+			<ButtonGroup>
 				<PrettoSlider
 					aria-label="Default"
 					max={pageCount}
@@ -215,7 +219,13 @@ export default function Toolbar({
 				>
 					<Link to={'/'}>返回首页</Link>
 				</Button>
-			</ToolbarWrapper>
-		</Wrapper>
+				<Button
+					variant="contained"
+					onClick={handleQuite}
+				>
+					退出程序
+				</Button>
+			</ButtonGroup>
+		</ToolbarContainer>
 	);
 }

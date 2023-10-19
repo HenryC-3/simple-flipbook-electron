@@ -2,6 +2,8 @@
  * @module preload
  */
 
+export {quiteApp} from './senders/index';
+
 export {getFirstImageWH} from './utils/fileSystem';
 export {
 	getBookPageImages,

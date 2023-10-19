@@ -3,7 +3,7 @@ import {useRef} from 'react';
 import Toolbar from './components/Toolbar';
 import BookShelf from './components/BookShelf';
 import styled from '@emotion/styled';
-import {ExampleBookTwo} from './pages/ReadBook';
+import {FlipBook} from './pages/ReadBook';
 import {getBookBg} from '#preload';
 
 const bookBg = await getBookBg();
@@ -25,6 +25,16 @@ const StyledBookShelf = styled(BookShelf)`
 	left: 0;
 `;
 
+// TODO 解决滚动条问题
+const StyledToolbar = styled(Toolbar)`
+	/* position: absolute;
+	bottom: 0; */
+`;
+
+const StyledFlipBook = styled(FlipBook)`
+	height: 100vh;
+`;
+
 function App() {
 	const [flippingTime] = useState(1000);
 	// TODO 移除 reactPageFlip 中的 any
@@ -40,17 +50,17 @@ function App() {
 	return (
 		<AppWrapper>
 			<StyledBookShelf></StyledBookShelf>
-			<ExampleBookTwo
+			<FlipBook
 				ref={flipBookRef}
 				flippingTime={flippingTime}
-			></ExampleBookTwo>
+			></FlipBook>
 			{flipBookRef ? (
-				<Toolbar
+				<StyledToolbar
 					flipBookRef={flipBookRef}
 					autoFlipTime={flippingTime}
 					nextButtonClick={nextButtonClick}
 					prevButtonClick={prevButtonClick}
-				></Toolbar>
+				></StyledToolbar>
 			) : (
 				''
 			)}

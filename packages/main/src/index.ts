@@ -1,8 +1,9 @@
 import {app} from 'electron';
-import './actions/setSecurityRestrictions';
-import {restoreOrCreateWindow} from './actions/restoreOrCreateWindow';
+import './configs/setSecurityRestrictions';
+import {restoreOrCreateWindow} from './configs/restoreOrCreateWindow';
 import {platform} from 'node:process';
-import {handleFileProtocol, setProtocol} from './actions/registerCustomProtocol';
+import {handleFileProtocol, setProtocol} from './configs/registerCustomProtocol';
+import {enableListeners} from './listeners';
 
 /**
  * Prevent electron from running multiple instances.
@@ -35,6 +36,7 @@ setProtocol();
 app.whenReady()
 	.then(handleFileProtocol)
 	.then(restoreOrCreateWindow)
+	.then(enableListeners)
 	.catch(e => console.error('Failed create window:', e));
 
 /**

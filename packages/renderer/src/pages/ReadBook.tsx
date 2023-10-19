@@ -41,7 +41,7 @@ const BookContent = styled.img<{width?: number; height?: number}>`
 	width: 100%;
 `;
 
-export const ExampleBookTwo = forwardRef<
+export const FlipBook = forwardRef<
 	HTMLElement,
 	{flippingTime?: number; width?: number; height?: number}
 >(({flippingTime = 1000}, ref) => {
