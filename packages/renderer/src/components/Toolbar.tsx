@@ -12,6 +12,7 @@ interface ToolbarOptions {
 	autoFlipTime: number;
 	nextButtonClick: () => void;
 	prevButtonClick: () => void;
+	className?: string;
 }
 
 const ToolbarContainer = styled.div<{isOpen: boolean}>`
@@ -22,24 +23,20 @@ const ToolbarContainer = styled.div<{isOpen: boolean}>`
 	justify-content: start;
 	align-items: center;
 
-	/* layout */
-	position: absolute;
-	bottom: 0;
-
-	transform: ${props => (props.isOpen ? 'translateY(0%)' : `translateY(55%)`)};
+	transform: ${props => (props.isOpen ? 'translateY(0%)' : `translateY(65%)`)};
 	transition: all 0.3s ease-in-out;
 `;
 const Dragger = styled.div`
 	width: 10rem;
 	height: 3rem;
-	background: #334942;
+	background: #373737;
 	border: 2px solid dark;
 	border-radius: 40% 40%;
 	transform: translateY(40%);
 `;
 
 const ButtonGroup = styled.div`
-	background-color: #334942;
+	background-color: #373737;
 	padding: 20px 40px;
 	display: flex;
 	gap: 0.5rem;
@@ -96,6 +93,7 @@ export default function Toolbar({
 	autoFlipTime,
 	nextButtonClick,
 	prevButtonClick,
+	className,
 }: ToolbarOptions) {
 	const [sliderNumber, setSliderNumber] = useState(0);
 	const [pageCount, setPageCount] = useState(0);
@@ -177,7 +175,10 @@ export default function Toolbar({
 	}
 
 	return (
-		<ToolbarContainer isOpen={isOpen}>
+		<ToolbarContainer
+			isOpen={isOpen}
+			className={className}
+		>
 			<Dragger
 				onClick={() => {
 					setIsOpen(!isOpen);

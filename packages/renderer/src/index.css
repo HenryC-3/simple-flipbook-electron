@@ -15,6 +15,9 @@ https://unpkg.com/tailwindcss@3.3.3/src/css/preflight.css */
 	cursor: none !important;
 }
 
+::-webkit-scrollbar {
+	display: none; /* Safari and Chrome */
+}
 ::before,
 ::after {
 	--tw-content: "";

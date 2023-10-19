@@ -20,15 +20,16 @@ const AppWrapper = styled.div`
 `;
 
 const StyledBookShelf = styled(BookShelf)`
-	z-index: 99;
+	z-index: 100;
 	position: absolute;
 	left: 0;
 `;
 
 // TODO 解决滚动条问题
 const StyledToolbar = styled(Toolbar)`
-	/* position: absolute;
-	bottom: 0; */
+	z-index: 99;
+	position: absolute;
+	bottom: 0;
 `;
 
 const StyledFlipBook = styled(FlipBook)`

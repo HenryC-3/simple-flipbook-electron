@@ -103,6 +103,7 @@ function Bookshelf({className}: BookShelfProps) {
 								key={book.id}
 								onClick={() => {
 									updatePath(book.path);
+									setIsOpen(!isOpen);
 								}}
 							>
 								<BookImage

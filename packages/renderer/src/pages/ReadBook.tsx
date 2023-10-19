@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import {forwardRef} from 'react';
 import {getImagePaths, getFirstImageWH} from '#preload';
 import {useStore} from '../store';
-import {height, width} from '@mui/system';
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
