@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import {forwardRef} from 'react';
 import {getImagePaths, getFirstImageWH} from '#preload';
 import {useStore} from '../store';
+import {height, width} from '@mui/system';
 
 const StyledFlipBook = styled(HTMLFlipBook)`
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
@@ -43,14 +44,20 @@ const BookContent = styled.img<{width?: number; height?: number}>`
 export const ExampleBookTwo = forwardRef<
 	HTMLElement,
 	{flippingTime?: number; width?: number; height?: number}
->(({flippingTime = 1000, width = 395 * 1.75, height = 540 * 1.75}, ref) => {
+>(({flippingTime = 1000}, ref) => {
 	const [pages, setPages] = useState<string[]>();
 	const {currentBookPath} = useStore(state => state);
+	const [h, setHeight] = useState(1080 * 0.92);
+	const [w, setWidth] = useState((1920 / 2) * 0.92);
 
 	useEffect(() => {
 		const getData = async () => {
-			const data = await getImagePaths(currentBookPath);
-			setPages(data);
+			const pages = await getImagePaths(currentBookPath);
+			const {height, width} = await getFirstImageWH(currentBookPath);
+			setPages(pages);
+			if (height && width) {
+				setWidth((h / 1080) * 0.92 * w);
+			}
 		};
 		getData();
 	}, [currentBookPath]);
@@ -62,12 +69,14 @@ export const ExampleBookTwo = forwardRef<
 
 		<StyledFlipBook
 			// NOTE 当书籍路径发生变化时，强迫翻书部分渲染
-			key={currentBookPath}
-			width={width}
-			height={height}
+			key={currentBookPath + height + width}
+			width={w}
+			height={h}
 			flippingTime={flippingTime}
 			showCover={false}
 			ref={ref}
+			// NOTE：设置为 stretch 后，书籍会自动填满容器
+			size="stretch"
 		>
 			{/* BookContent */}
 			{pages
