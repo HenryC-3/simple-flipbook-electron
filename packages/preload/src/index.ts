@@ -2,8 +2,8 @@
  * @module preload
  */
 
+export {getAppBehaviorConfig} from './appConfig';
 export {quiteApp} from './senders/index';
-
 export {getFirstImageWH} from './utils/fileSystem';
 export {
 	getBookPageImages,

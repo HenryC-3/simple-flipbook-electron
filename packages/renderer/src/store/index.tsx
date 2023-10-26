@@ -1,8 +1,10 @@
 import {create} from 'zustand';
-import {getBooksPath, getBgsPath} from '#preload';
+import {getBooksPath, getBgsPath, getAppBehaviorConfig} from '#preload';
 
 const bookPaths = await getBooksPath();
 const bgPaths = await getBgsPath();
+const appConfig = await getAppBehaviorConfig();
+console.log('appConfig', appConfig); 
 
 interface Store {
 	bookPaths: string[];

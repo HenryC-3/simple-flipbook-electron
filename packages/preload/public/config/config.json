@@ -1,19 +1,5 @@
-[
-	"./pages/01.jpg",
-	"./pages/02.jpg",
-	"./pages/03.jpg",
-	"./pages/04.jpg",
-	"./pages/05.jpg",
-	"./pages/06.jpg",
-	"./pages/07.jpg",
-	"./pages/08.jpg",
-	"./pages/09.jpg",
-	"./pages/10.jpg",
-	"./pages/11.jpg",
-	"./pages/12.jpg",
-	"./pages/13.jpg",
-	"./pages/14.jpg",
-	"./pages/15.jpg",
-	"./pages/16.jpg",
-	"./pages/17.jpg"
-]
+{
+	"flipTime": 1300,
+	"toolbar": true,
+	"toolbarTranslateY": 0
+}

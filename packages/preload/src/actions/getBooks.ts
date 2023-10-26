@@ -6,12 +6,12 @@ import {
 	getImagesDataURL,
 	isImageFile,
 } from '../utils/fileSystem';
-import {getAppConfig} from '../appConfig';
+import {getAppPathConfig} from '../appConfig';
 import {basename, join} from 'path';
 import {lstatSync, existsSync} from 'fs';
 import type {BooksInfo} from '../types';
 
-const dirPath = join(__dirname, getAppConfig().booksDir);
+const dirPath = join(__dirname, getAppPathConfig().booksDir);
 
 export async function getBooksInfo(): Promise<BooksInfo[]> {
 	const booksPath = await getBooksPath();

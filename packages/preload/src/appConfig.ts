@@ -1,28 +1,41 @@
-interface AppConfig {
+import {join} from 'path';
+
+interface PathConfig {
 	booksDir: string;
 	bgDir: string;
 	homeBg: string;
 	bookBg: string;
 	configDir: string;
 }
-const devConfig: AppConfig = {
+
+interface BehaviorConfig {
+	flipTime?: number;
+	toolbar?: boolean;
+	toolbarTranslateY?: number;
+}
+
+const devPathConfig: PathConfig = {
 	booksDir: './config/books',
-	// TODO: 识别 bg 文件夹下包含 home 的文件
 	bgDir: './config/bgs',
 	homeBg: './config/bgs/home.png',
 	bookBg: './config/bgs/book.jpg',
 	configDir: './config/config.json',
 };
 
-export function getAppConfig(): AppConfig {
+export function getAppPathConfig(): PathConfig {
 	if (import.meta.env.DEV) {
-		return devConfig;
+		return devPathConfig;
 	}
 
-	const prodConfig = Object.keys(devConfig).reduce((acc, key) => {
-		acc[key as keyof AppConfig] = '../../../.' + devConfig[key as keyof AppConfig];
+	const prodPathConfig = Object.keys(devPathConfig).reduce((acc, key) => {
+		acc[key as keyof PathConfig] = '../../../.' + devPathConfig[key as keyof PathConfig];
 		return acc;
-	}, {} as AppConfig);
-	console.log('prodConfig', prodConfig);
-	return prodConfig;
+	}, {} as PathConfig);
+
+	return prodPathConfig;
+}
+
+export function getAppBehaviorConfig(): BehaviorConfig {
+	const {configDir} = getAppPathConfig();
+	return require(join(__dirname, configDir)) as BehaviorConfig;
 }
