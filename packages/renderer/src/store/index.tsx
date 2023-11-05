@@ -4,7 +4,7 @@ import {getBooksPath, getBgsPath, getAppBehaviorConfig} from '#preload';
 const bookPaths = await getBooksPath();
 const bgPaths = await getBgsPath();
 const appConfig = await getAppBehaviorConfig();
-console.log('appConfig', appConfig); 
+// console.log('appConfig', appConfig);
 
 interface Store {
 	bookPaths: string[];
@@ -28,10 +28,10 @@ export const useStore = create<Store>()(set => ({
 	reRenderFlag: false,
 	updatePath: (path: string) => {
 		set(state => {
-			console.log('--------------state----------------');
-			console.log('previous state path', state.currentBookPath);
-			console.log('current state path', path);
-			console.log('--------------state----------------');
+			// console.log('--------------state----------------');
+			// console.log('previous state path', state.currentBookPath);
+			// console.log('current state path', path);
+			// console.log('--------------state----------------');
 			return {
 				currentBookPath: path,
 			};
@@ -53,10 +53,10 @@ export const useStore = create<Store>()(set => ({
 	},
 	updateFlag: () => {
 		set(state => {
-			console.log('--------------state----------------');
-			console.log('previous state flag', state.reRenderFlag);
-			console.log('current state flag', !state.reRenderFlag);
-			console.log('--------------state----------------');
+			// console.log('--------------state----------------');
+			// console.log('previous state flag', state.reRenderFlag);
+			// console.log('current state flag', !state.reRenderFlag);
+			// console.log('--------------state----------------');
 			return {
 				reRenderFlag: !state.reRenderFlag,
 			};

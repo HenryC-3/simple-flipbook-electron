@@ -45,8 +45,8 @@ export async function getBooksInfo(): Promise<BooksInfo[]> {
 			? await getFirstImageURL(join(path, './cover'))
 			: '';
 
-		console.log('coverInFolder', coverInFolder);
-		console.log('cover', cover);
+		// console.log('coverInFolder', coverInFolder);
+		// console.log('cover', cover);
 
 		return coverInFolder ? coverInFolder : cover;
 	}

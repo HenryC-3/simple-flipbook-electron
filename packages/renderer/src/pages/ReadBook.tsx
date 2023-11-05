@@ -53,12 +53,12 @@ export const FlipBook = forwardRef<
 		updateWidth,
 		updateFlag,
 	} = useStore(state => state);
-	console.log('--------------component----------------');
-	console.log('FlipBook component');
-	console.log('reRenderFlag', reRenderFlag);
-	console.log('currentBookHeight', currentBookHeight);
-	console.log('currentBookWidth', currentBookWidth);
-	console.log('--------------component----------------');
+	// console.log('--------------component----------------');
+	// console.log('FlipBook component');
+	// console.log('reRenderFlag', reRenderFlag);
+	// console.log('currentBookHeight', currentBookHeight);
+	// console.log('currentBookWidth', currentBookWidth);
+	// console.log('--------------component----------------');
 
 	useEffect(() => {
 		const getData = async () => {
@@ -70,13 +70,13 @@ export const FlipBook = forwardRef<
 				// NOTE: 改变 width 之后必须强迫 reactPageFLip.HTMLFlipBook 重新渲染，否则数值不会生效
 				updateFlag();
 			}
-			console.log('--------------useEffect--------------------');
-			console.log('currentBookPath', currentBookPath);
-			console.log(`(${height} / 1080 / 0.9) * ${width}`);
-			//@ts-ignore
-			console.log('width', ((1080 * 0.9) / height) * width);
-			console.log('height', currentBookHeight);
-			console.log('--------------useEffect--------------------');
+			// console.log('--------------useEffect--------------------');
+			// console.log('currentBookPath', currentBookPath);
+			// console.log(`(${height} / 1080 / 0.9) * ${width}`);
+			// //@ts-ignore
+			// console.log('width', ((1080 * 0.9) / height) * width);
+			// console.log('height', currentBookHeight);
+			// console.log('--------------useEffect--------------------');
 		};
 		getData();
 	}, [currentBookPath]);
