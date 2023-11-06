@@ -4,7 +4,7 @@ import Toolbar from './components/Toolbar';
 import BookShelf from './components/BookShelf';
 import styled from '@emotion/styled';
 import {FlipBook} from './pages/ReadBook';
-import {getBookBg} from '#preload';
+import {getBookBg, remoteTrigger} from '#preload';
 
 const bookBg = await getBookBg();
 
@@ -45,8 +45,14 @@ function App() {
 	};
 
 	const prevButtonClick = () => {
-		flipBookRef.current.pageFlip().flipPrev();
+		if (flipBookRef.current) flipBookRef.current.pageFlip().flipPrev();
 	};
+
+	remoteTrigger(message => {
+		const {action, data} = JSON.parse(message);
+		if (action === '上一页') prevButtonClick();
+		if (action === '下一页') nextButtonClick();
+	});
 
 	return (
 		<AppWrapper>

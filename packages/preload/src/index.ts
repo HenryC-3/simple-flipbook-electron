@@ -15,3 +15,4 @@ export {
 export {getHomeBg, getBookBg, getBgsPath} from './actions/getBgs';
 export {sha256sum} from './actions/nodeCrypto';
 export {versions} from './actions/versions';
+export {remoteTrigger} from './listeners/index';

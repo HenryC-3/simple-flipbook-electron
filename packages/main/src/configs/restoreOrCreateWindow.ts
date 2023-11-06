@@ -70,4 +70,5 @@ export async function restoreOrCreateWindow() {
 		window.restore();
 	}
 	if (import.meta.env.PROD) window.focus();
+	return window;
 }

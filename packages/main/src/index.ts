@@ -4,6 +4,7 @@ import {restoreOrCreateWindow} from './configs/restoreOrCreateWindow';
 import {platform} from 'node:process';
 import {handleFileProtocol, setProtocol} from './configs/registerCustomProtocol';
 import {enableListeners} from './listeners';
+import {createTcpServer} from './configs/createTcpServer';
 
 /**
  * Prevent electron from running multiple instances.
@@ -35,7 +36,10 @@ setProtocol();
  */
 app.whenReady()
 	.then(handleFileProtocol)
-	.then(restoreOrCreateWindow)
+	.then(async () => {
+		const browserWindow = await restoreOrCreateWindow();
+		createTcpServer(browserWindow);
+	})
 	.then(enableListeners)
 	.catch(e => console.error('Failed create window:', e));
 
