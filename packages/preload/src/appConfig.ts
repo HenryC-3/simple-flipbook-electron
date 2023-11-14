@@ -1,3 +1,4 @@
+// TODO: 移动该页面到 main process，通过 ipc 从 main 获取配置信息
 import {join} from 'path';
 
 interface PathConfig {
