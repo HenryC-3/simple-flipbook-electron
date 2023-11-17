@@ -7,12 +7,23 @@ const appConfig = await getAppBehaviorConfig();
 // console.log('appConfig', appConfig);
 
 interface Store {
+	// 存储所有书籍的文件夹
 	bookPaths: string[];
+	// 背景文件所在路径
 	bgPaths: string[];
+	// 重渲染
 	reRenderFlag: boolean;
+	// 自动翻页模式
+	autoPlayMode: boolean;
+	// 当前书籍所在文件夹
 	currentBookPath: string;
+	// 翻页动画持续时间
+	flippingTime: number;
+	// 自动翻页间隔
+	flipActionGap: number;
 	currentBookHeight: number;
 	currentBookWidth: number;
+	updateAutoPlayMode: (enable: boolean) => void;
 	updatePath: (path: string) => void;
 	updateHeight: (height: number) => void;
 	updateWidth: (height: number) => void;
@@ -20,12 +31,20 @@ interface Store {
 }
 
 export const useStore = create<Store>()(set => ({
+	flippingTime: 1000,
+	flipActionGap: 80000,
 	bookPaths: bookPaths,
 	bgPaths: bgPaths,
 	currentBookPath: bookPaths[0],
 	currentBookHeight: 1080 * 0.9,
 	currentBookWidth: 1920 * 0.9,
 	reRenderFlag: false,
+	autoPlayMode: false,
+	updateAutoPlayMode: enable => {
+		set(state => {
+			return {autoPlayMode: enable};
+		});
+	},
 	updatePath: (path: string) => {
 		set(state => {
 			// console.log('--------------state----------------');

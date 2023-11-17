@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 
 interface ToolbarOptions {
 	flipBookRef: React.MutableRefObject<any>;
-	autoFlipTime: number;
 	nextButtonClick: () => void;
 	prevButtonClick: () => void;
 	className?: string;
@@ -90,15 +89,20 @@ const PrettoSlider = styled(Slider)({
 
 export default function Toolbar({
 	flipBookRef,
-	autoFlipTime,
 	nextButtonClick,
 	prevButtonClick,
 	className,
 }: ToolbarOptions) {
 	const [sliderNumber, setSliderNumber] = useState(0);
+	// 当前书籍包含的页面数量
 	const [pageCount, setPageCount] = useState(0);
-	const {currentBookPath} = useStore(state => state);
+	// 当前书籍所在的文件路径
+	const {currentBookPath, autoPlayMode, flippingTime, updateAutoPlayMode} = useStore(
+		state => state,
+	);
+	// 工具栏的打开状态
 	const [isOpen, setIsOpen] = useState(false);
+	// 自动阅览模式的开启状态
 
 	useEffect(() => {
 		const getData = async () => {
@@ -108,70 +112,94 @@ export default function Toolbar({
 		getData();
 	}, [currentBookPath]);
 
-	const flipToPage = () => {
+	const handleFlipToPage = () => {
 		// 自动翻页，翻过单张执行的速度 = 翻页动画速度
 		// NOTE: 通过 getCurrentPageIndex 只会获取到偶数位的 pageNumber，即 1246
-		const pageNumber = flipBookRef.current.pageFlip().getCurrentPageIndex() + 1;
-		let timerId: any;
+		const pageNumber = getCurrentPageNumber();
 
+		// 获取到需要翻动的次数，以及方向
 		const {count, swipeRight} = getFlipCount(pageNumber, sliderNumber);
 
-		autoSwipe(count, swipeRight, autoFlipTime, {right: nextButtonClick, left: prevButtonClick});
-		/**
-		 * @description 返回一个对象，包含翻页的次数，翻页的方向
-		 */
-		function getFlipCount(currentNum: number, targetNum: number) {
-			// NOTE 处理往回翻页，即目标页数小于当前页数的情况
-			let swipeRight;
-			if (targetNum < currentNum) {
-				swipeRight = false;
-			} else {
-				swipeRight = true;
-			}
-
-			const isOdd = sliderNumber % 2;
-			if (isOdd) {
-				return {
-					count: Math.abs(targetNum - 1 - currentNum) / 2,
-					swipeRight,
-				};
-			} else {
-				return {
-					count:
-						targetNum == 2 && currentNum == 1
-							? 1
-							: Math.abs(targetNum - currentNum) / 2,
-					swipeRight,
-				};
-			}
-		}
-
-		/**
-		 * @description 根据方向(direction)，自动执行翻页(action)若干次(count), 每次间隔 time ms
-		 */
-		function autoSwipe(
-			count: number,
-			direction: boolean,
-			time: number,
-			actions: {right: () => void; left: () => void},
-		) {
-			let action: () => void;
-			const {right, left} = actions;
-			if (direction) {
-				action = right;
-			} else {
-				action = left;
-			}
-
-			let n = count;
-			timerId = setInterval(() => {
-				n <= 0 ? clearInterval(timerId) : action();
-				n = n - 1;
-			}, time);
-		}
+		// 执行翻页操作
+		autoSwipe(count, swipeRight, flippingTime, {right: nextButtonClick, left: prevButtonClick});
 	};
+
 	function handleQuite() {
 		quiteApp();
+	}
+
+	// TODO
+	/**
+	 * @description 自动往下翻页，可自定义翻页时间，翻到最后一页后，跳转回第一页，继续翻页
+	 */
+	function enableAutoPlay() {
+		const pageNumber = getCurrentPageNumber();
+		updateAutoPlayMode(true);
+		// 当前翻到的页数大于或等于页面总数时，跳转到第一页
+
+		// 自动翻页期间，工具栏及书页处，除自动翻页按钮外，禁止点击，避免逻辑冲突
+
+		// 自动翻页按钮变更为停止按钮，点击停止按钮，停止自动翻页
+
+		// 当前翻到的页数小于页面总数时，翻到最后一页
+	}
+
+	function disableAutoPlay() {
+		updateAutoPlayMode(false);
+	}
+
+	function getCurrentPageNumber() {
+		return flipBookRef.current.pageFlip().getCurrentPageIndex() + 1;
+	}
+	/**
+	 * @description 返回一个对象，包含翻页的次数，翻页的方向
+	 */
+	function getFlipCount(currentNum: number, targetNum: number) {
+		// NOTE 处理往回翻页，即目标页数小于当前页数的情况
+		let swipeRight;
+		if (targetNum < currentNum) {
+			swipeRight = false;
+		} else {
+			swipeRight = true;
+		}
+
+		const isOdd = sliderNumber % 2;
+		if (isOdd) {
+			return {
+				count: Math.abs(targetNum - 1 - currentNum) / 2,
+				swipeRight,
+			};
+		} else {
+			return {
+				count: targetNum == 2 && currentNum == 1 ? 1 : Math.abs(targetNum - currentNum) / 2,
+				swipeRight,
+			};
+		}
+	}
+
+	/**
+	 * @description 根据方向(direction)，自动执行翻页(action)若干次(count), 每次间隔 time ms
+	 */
+	function autoSwipe(
+		count: number,
+		direction: boolean,
+		time: number,
+		actions: {right: () => void; left: () => void},
+	) {
+		let action: () => void;
+		const {right, left} = actions;
+		if (direction) {
+			action = right;
+		} else {
+			action = left;
+		}
+
+		let n = count;
+		let timerId: string | number | NodeJS.Timer | undefined;
+		timerId = setInterval(() => {
+			n <= 0 ? clearInterval(timerId) : action();
+			n = n - 1;
+		}, time);
 	}
 
 	return (
@@ -198,7 +226,7 @@ export default function Toolbar({
 				/>
 				<Button
 					variant="contained"
-					onClick={flipToPage}
+					onClick={handleFlipToPage}
 				>
 					跳转
 				</Button>
@@ -214,6 +242,22 @@ export default function Toolbar({
 				>
 					下一页
 				</Button>
+				{autoPlayMode ? (
+					<Button
+						variant="contained"
+						onClick={disableAutoPlay}
+						color="error"
+					>
+						停止播放
+					</Button>
+				) : (
+					<Button
+						variant="contained"
+						onClick={enableAutoPlay}
+					>
+						自动翻阅
+					</Button>
+				)}
 				<Button
 					variant="contained"
 					onClick={nextButtonClick}
