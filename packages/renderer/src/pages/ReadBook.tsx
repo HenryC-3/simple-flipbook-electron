@@ -37,11 +37,11 @@ const StyledFlipBook = styled(FlipBook)`
 `;
 
 function ReadBook() {
-	const {flippingTime} = useStore(state => state);
 	// TODO 移除 reactPageFlip 中的 any
 	const flipBookRef = useRef<any>(null);
 	const nextButtonClick = () => {
 		if (flipBookRef.current) flipBookRef.current.pageFlip().flipNext();
+		
 	};
 
 	const prevButtonClick = () => {

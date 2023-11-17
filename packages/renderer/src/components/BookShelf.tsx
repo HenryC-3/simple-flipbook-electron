@@ -83,7 +83,7 @@ const BookImage = styled.img`
 
 function Bookshelf({className}: BookShelfProps) {
 	const [isOpen, setIsOpen] = useState(false);
-	const {updatePath, updateFlag} = useStore(state => state);
+	const {updateCurrentBookPath: updatePath, updateFlag} = useStore(state => state);
 
 	return (
 		<Wrapper

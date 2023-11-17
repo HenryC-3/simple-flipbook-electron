@@ -1,10 +1,11 @@
 import {create} from 'zustand';
-import {getBooksPath, getBgsPath, getAppBehaviorConfig} from '#preload';
+import {getBooksPath, getBgsPath, getAppBehaviorConfig, countBookPageNum} from '#preload';
+type Timer = string | NodeJS.Timer;
 
-const bookPaths = await getBooksPath();
+const currentBookPaths = await getBooksPath();
+const currentBookPageCount = await countBookPageNum(currentBookPaths[0]);
 const bgPaths = await getBgsPath();
 const appConfig = await getAppBehaviorConfig();
-type Timer = string | NodeJS.Timer;
 
 interface Store {
 	// 存储所有书籍的文件夹
@@ -17,6 +18,9 @@ interface Store {
 	autoPlayMode: boolean;
 	// 当前书籍所在文件夹
 	currentBookPath: string;
+	// 是否自动翻阅翻到了最后一页
+	isFlipToLastPage: boolean;
+	// currentBookPageCount: number;
 	// 翻页动画持续时间
 	flippingTime: number;
 	// 自动翻页间隔
@@ -25,25 +29,33 @@ interface Store {
 	autoSwipeTimer: Timer;
 	currentBookHeight: number;
 	currentBookWidth: number;
+	updateIsFlipToLastPage: (status: boolean) => void;
 	updateAutoSwipeTimer: (timer: Timer) => void;
 	updateAutoPlayMode: (enable: boolean) => void;
-	updatePath: (path: string) => void;
+	updateCurrentBookPath: (path: string) => void;
 	updateHeight: (height: number) => void;
 	updateWidth: (height: number) => void;
 	updateFlag: () => void;
 }
 
-export const useStore = create<Store>()(set => ({
+export const useStore = create<Store>()((set, get) => ({
 	autoSwipeTimer: '',
+	isFlipToLastPage: false,
 	flippingTime: 1000,
 	flipActionGap: 80000,
-	bookPaths: bookPaths,
+	bookPaths: currentBookPaths,
 	bgPaths: bgPaths,
-	currentBookPath: bookPaths[0],
+	currentBookPath: currentBookPaths[0],
 	currentBookHeight: 1080 * 0.9,
 	currentBookWidth: 1920 * 0.9,
 	reRenderFlag: false,
 	autoPlayMode: false,
+	updateIsFlipToLastPage(status) {
+		clearInterval(get().autoSwipeTimer);
+		set(state => {
+			return {isFlipToLastPage: status};
+		});
+	},
 	updateAutoSwipeTimer: (timer: Timer) => {
 		set(state => {
 			return {autoSwipeTimer: timer};
@@ -54,7 +66,7 @@ export const useStore = create<Store>()(set => ({
 			return {autoPlayMode: enable};
 		});
 	},
-	updatePath: (path: string) => {
+	updateCurrentBookPath: (path: string) => {
 		set(state => {
 			// console.log('--------------state----------------');
 			// console.log('previous state path', state.currentBookPath);

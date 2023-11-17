@@ -6,6 +6,7 @@ import Slider from '@mui/material/Slider';
 import {countBookPageNum, quiteApp} from '#preload';
 import {useStore} from '../store/index';
 import {Link} from 'react-router-dom';
+import {kMaxLength} from 'buffer';
 
 interface ToolbarOptions {
 	flipBookRef: React.MutableRefObject<any>;
@@ -107,8 +108,10 @@ export default function Toolbar({
 		autoPlayMode,
 		flippingTime,
 		autoSwipeTimer,
+		isFlipToLastPage,
 		updateAutoPlayMode,
 		updateAutoSwipeTimer,
+		updateIsFlipToLastPage,
 	} = useStore(state => state);
 	// 工具栏的打开状态
 	const [isOpen, setIsOpen] = useState(false);
@@ -120,6 +123,18 @@ export default function Toolbar({
 		};
 		getData();
 	}, [currentBookPath]);
+
+	useEffect(() => {
+		console.log('run effect');
+		if (autoPlayMode) {
+			if (flipBookRef.current) flipBookRef.current.pageFlip().turnToPage(1);
+			updateIsFlipToLastPage(false);
+			if (!isFlipToLastPage) {
+				console.log('run auto play');
+				enableAutoPlay();
+			}
+		}
+	}, [isFlipToLastPage]);
 
 	const handleFlipToPage = () => {
 		// 自动翻页，翻过单张执行的速度 = 翻页动画速度
@@ -204,7 +219,7 @@ export default function Toolbar({
 		let n = count;
 		let timerId: string | number | NodeJS.Timer | undefined;
 		timerId = setInterval(() => {
-			n <= 0 ? clearInterval(timerId) : action();
+			n <= 0 ? updateIsFlipToLastPage(true) : action();
 			n = n - 1;
 		}, time);
 
