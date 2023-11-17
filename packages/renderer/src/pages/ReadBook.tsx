@@ -25,7 +25,6 @@ const StyledBookShelf = styled(BookShelf)`
 	left: 0;
 `;
 
-// TODO 解决滚动条问题
 const StyledToolbar = styled(Toolbar)`
 	z-index: 99;
 	position: absolute;
@@ -41,7 +40,6 @@ function ReadBook() {
 	const flipBookRef = useRef<any>(null);
 	const nextButtonClick = () => {
 		if (flipBookRef.current) flipBookRef.current.pageFlip().flipNext();
-		
 	};
 
 	const prevButtonClick = () => {

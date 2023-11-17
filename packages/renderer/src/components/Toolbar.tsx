@@ -109,6 +109,7 @@ export default function Toolbar({
 		flippingTime,
 		autoSwipeTimer,
 		isFlipToLastPage,
+		flipActionGap,
 		updateAutoPlayMode,
 		updateAutoSwipeTimer,
 		updateIsFlipToLastPage,
@@ -159,7 +160,7 @@ export default function Toolbar({
 		updateAutoPlayMode(true);
 		const pageNumber = getCurrentPageNumber();
 		const {count, swipeRight} = getFlipCount(pageNumber, pageCount);
-		autoSwipe(count, swipeRight, flippingTime, {
+		autoSwipe(count, swipeRight, flipActionGap, {
 			right: nextButtonClick,
 			left: prevButtonClick,
 		});
@@ -285,6 +286,7 @@ export default function Toolbar({
 							停止播放
 						</Button>
 					) : (
+						// TODO: 替换为 select, 用户可以通过选择框，配置自动翻页的间隔 https://mui.com/material-ui/react-select/
 						<Button
 							variant="contained"
 							onClick={enableAutoPlay}

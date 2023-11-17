@@ -42,7 +42,7 @@ export const useStore = create<Store>()((set, get) => ({
 	autoSwipeTimer: '',
 	isFlipToLastPage: false,
 	flippingTime: 1000,
-	flipActionGap: 80000,
+	flipActionGap: 2000,
 	bookPaths: currentBookPaths,
 	bgPaths: bgPaths,
 	currentBookPath: currentBookPaths[0],

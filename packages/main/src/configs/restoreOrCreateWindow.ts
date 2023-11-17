@@ -2,7 +2,7 @@ import {app, BrowserWindow, Menu} from 'electron';
 import {join, resolve} from 'node:path';
 
 async function createWindow() {
-	// TODO 关闭菜单栏
+	// NOTE 关闭菜单栏
 	Menu.setApplicationMenu(null);
 	const browserWindow = new BrowserWindow({
 		fullscreen: import.meta.env.DEV ? false : true,
