@@ -57,10 +57,7 @@ function ReadBook() {
 	return (
 		<AppWrapper>
 			<StyledBookShelf></StyledBookShelf>
-			<FlipBook
-				ref={flipBookRef}
-				flippingTime={flippingTime}
-			></FlipBook>
+			<FlipBook ref={flipBookRef}></FlipBook>
 			{flipBookRef ? (
 				<StyledToolbar
 					flipBookRef={flipBookRef}

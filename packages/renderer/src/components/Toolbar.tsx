@@ -34,12 +34,17 @@ const Dragger = styled.div`
 	transform: translateY(40%);
 `;
 
-const ButtonGroup = styled.div`
+const ButtonGroupContainer = styled.div`
 	background-color: #373737;
 	padding: 20px 40px;
 	display: flex;
 	gap: 0.5rem;
 	border-radius: 20px 20px 0px 0px;
+`;
+
+const ButtonGroup = styled.div`
+	display: flex;
+	gap: 0.5rem;
 `;
 
 const PrettoSlider = styled(Slider)({
@@ -212,65 +217,76 @@ export default function Toolbar({
 					setIsOpen(!isOpen);
 				}}
 			></Dragger>
-			<ButtonGroup>
-				<PrettoSlider
-					aria-label="Default"
-					max={pageCount}
-					valueLabelDisplay="auto"
-					value={sliderNumber}
-					onChange={e => {
-						setSliderNumber(
-							Number(e.target ? (e.target as HTMLInputElement).value : 0),
-						);
-					}}
-				/>
-				<Button
-					variant="contained"
-					onClick={handleFlipToPage}
-				>
-					跳转
-				</Button>
-				<Button
-					variant="contained"
-					onClick={prevButtonClick}
-				>
-					上一页
-				</Button>
-				<Button
-					variant="contained"
-					onClick={nextButtonClick}
-				>
-					下一页
-				</Button>
-				{autoPlayMode ? (
+			<ButtonGroupContainer>
+				{
+					// 自动翻阅模式下屏蔽各类翻页操作
+					autoPlayMode ? (
+						''
+					) : (
+						<ButtonGroup>
+							<PrettoSlider
+								aria-label="Default"
+								max={pageCount}
+								valueLabelDisplay="auto"
+								value={sliderNumber}
+								onChange={e => {
+									setSliderNumber(
+										Number(e.target ? (e.target as HTMLInputElement).value : 0),
+									);
+								}}
+							/>
+							<Button
+								variant="contained"
+								onClick={handleFlipToPage}
+							>
+								跳转
+							</Button>
+							<Button
+								variant="contained"
+								onClick={prevButtonClick}
+							>
+								上一页
+							</Button>
+							<Button
+								variant="contained"
+								onClick={nextButtonClick}
+							>
+								下一页
+							</Button>
+						</ButtonGroup>
+					)
+				}
+				<ButtonGroup>
+					{autoPlayMode ? (
+						<Button
+							variant="contained"
+							onClick={disableAutoPlay}
+							color="error"
+						>
+							停止播放
+						</Button>
+					) : (
+						<Button
+							variant="contained"
+							onClick={enableAutoPlay}
+						>
+							自动翻阅
+						</Button>
+					)}
 					<Button
 						variant="contained"
-						onClick={disableAutoPlay}
-						color="error"
+						onClick={nextButtonClick}
 					>
-						停止播放
+						<Link to={'/'}>返回首页</Link>
 					</Button>
-				) : (
 					<Button
 						variant="contained"
-						onClick={enableAutoPlay}
+						onClick={handleQuite}
 					>
-						自动翻阅
+						退出程序
 					</Button>
-				)}
-				<Button
-					variant="contained"
-					onClick={nextButtonClick}
-				>
-					<Link to={'/'}>返回首页</Link>
-				</Button>
-				<Button
-					variant="contained"
-					onClick={handleQuite}
-				>
-					退出程序
-				</Button>
-			</ButtonGroup>
+				</ButtonGroup>
+			</ButtonGroupContainer>
 		</ToolbarContainer>
 	);
 }

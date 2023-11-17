@@ -40,12 +40,24 @@ const BookContent = styled.img<{width?: number; height?: number}>`
 	width: 100%;
 `;
 
+const Modal = styled.div`
+	position: absolute;
+	/* background-color: red; */
+	z-index: 98;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+`;
+
 export const FlipBook = forwardRef<
 	HTMLElement,
 	{flippingTime?: number; width?: number; height?: number}
->(({flippingTime = 1000}, ref) => {
+>(({}, ref) => {
 	const [pages, setPages] = useState<string[]>();
 	const {
+		autoPlayMode,
+		flippingTime,
 		currentBookPath,
 		currentBookHeight,
 		currentBookWidth,
@@ -82,56 +94,59 @@ export const FlipBook = forwardRef<
 	}, [currentBookPath]);
 
 	return currentBookWidth && currentBookHeight ? (
-		// BUG: React Router caught the following error during render DOMException: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
 		// TODO 移除 ts-ignore
 		// @ts-ignore
-		<StyledFlipBook
-			// NOTE 当书籍路径发生变化时，强迫翻书部分渲染
-			key={reRenderFlag}
-			width={currentBookWidth}
-			height={currentBookHeight}
-			// minHeight={currentBookHeight}
-			// minWidth={currentBookWidth}
-			// maxHeight={currentBookHeight * 2}
-			// maxWidth={currentBookWidth * 2}
-			flippingTime={flippingTime}
-			showCover={false}
-			ref={ref}
-			// NOTE：设置为 stretch 后，书籍会自动填满容器
-			size="stretch"
-		>
-			{/* BookContent */}
-			{pages
-				? pages.map((page, index) => {
-						const isOdd = (index + 1) % 2 !== 0;
-						if (isOdd) {
-							return (
-								// NOTE 规避 https://bobbyhafdz.com/blog/javascript-failed-to-execute-remove-child-on-node
-								// NOTE 不能给 div 添加 key，给 dev 添加 key 后会立刻报错
-								<div>
-									<BookPageLeft>
-										<BookContent
-											src={page}
-											alt=""
-										/>
-									</BookPageLeft>
-								</div>
-							);
-						} else {
-							return (
-								<div>
-									<BookPageRight>
-										<BookContent
-											src={page}
-											alt=""
-										/>
-									</BookPageRight>
-								</div>
-							);
-						}
-				  })
-				: ''}
-		</StyledFlipBook>
+		<>
+			{autoPlayMode ? <Modal></Modal> : ''}
+			{autoPlayMode}
+			<StyledFlipBook
+				// NOTE 当书籍路径发生变化时，强迫翻书部分渲染
+				key={reRenderFlag}
+				width={currentBookWidth}
+				height={currentBookHeight}
+				// minHeight={currentBookHeight}
+				// minWidth={currentBookWidth}
+				// maxHeight={currentBookHeight * 2}
+				// maxWidth={currentBookWidth * 2}
+				flippingTime={flippingTime}
+				showCover={false}
+				ref={ref}
+				// NOTE：设置为 stretch 后，书籍会自动填满容器
+				size="stretch"
+			>
+				{/* BookContent */}
+				{pages
+					? pages.map((page, index) => {
+							const isOdd = (index + 1) % 2 !== 0;
+							if (isOdd) {
+								return (
+									// NOTE 规避 https://bobbyhafdz.com/blog/javascript-failed-to-execute-remove-child-on-node
+									// NOTE 不能给 div 添加 key，给 dev 添加 key 后会立刻报错
+									<div>
+										<BookPageLeft>
+											<BookContent
+												src={page}
+												alt=""
+											/>
+										</BookPageLeft>
+									</div>
+								);
+							} else {
+								return (
+									<div>
+										<BookPageRight>
+											<BookContent
+												src={page}
+												alt=""
+											/>
+										</BookPageRight>
+									</div>
+								);
+							}
+					  })
+					: ''}
+			</StyledFlipBook>
+		</>
 	) : (
 		''
 	);
