@@ -4,7 +4,7 @@ import {getBooksPath, getBgsPath, getAppBehaviorConfig} from '#preload';
 const bookPaths = await getBooksPath();
 const bgPaths = await getBgsPath();
 const appConfig = await getAppBehaviorConfig();
-// console.log('appConfig', appConfig);
+type Timer = string | NodeJS.Timer;
 
 interface Store {
 	// 存储所有书籍的文件夹
@@ -21,8 +21,11 @@ interface Store {
 	flippingTime: number;
 	// 自动翻页间隔
 	flipActionGap: number;
+	// 关闭自动翻页
+	autoSwipeTimer: Timer;
 	currentBookHeight: number;
 	currentBookWidth: number;
+	updateAutoSwipeTimer: (timer: Timer) => void;
 	updateAutoPlayMode: (enable: boolean) => void;
 	updatePath: (path: string) => void;
 	updateHeight: (height: number) => void;
@@ -31,6 +34,7 @@ interface Store {
 }
 
 export const useStore = create<Store>()(set => ({
+	autoSwipeTimer: '',
 	flippingTime: 1000,
 	flipActionGap: 80000,
 	bookPaths: bookPaths,
@@ -40,6 +44,11 @@ export const useStore = create<Store>()(set => ({
 	currentBookWidth: 1920 * 0.9,
 	reRenderFlag: false,
 	autoPlayMode: false,
+	updateAutoSwipeTimer: (timer: Timer) => {
+		set(state => {
+			return {autoSwipeTimer: timer};
+		});
+	},
 	updateAutoPlayMode: enable => {
 		set(state => {
 			return {autoPlayMode: enable};
