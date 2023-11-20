@@ -38,6 +38,7 @@ app.whenReady()
 	.then(handleFileProtocol)
 	.then(async () => {
 		const browserWindow = await restoreOrCreateWindow();
+		// TODO 此处 ip 写死，修改车成可配置的版本
 		createTcpServer(browserWindow);
 	})
 	.then(enableListeners)
