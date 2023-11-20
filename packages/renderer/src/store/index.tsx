@@ -5,7 +5,7 @@ type Timer = string | NodeJS.Timer;
 const currentBookPaths = await getBooksPath();
 const currentBookPageCount = await countBookPageNum(currentBookPaths[0]);
 const bgPaths = await getBgsPath();
-const appConfig = await getAppBehaviorConfig();
+const {flippingTime, flipActionGap} = await getAppBehaviorConfig();
 
 interface Store {
 	// 存储所有书籍的文件夹
@@ -41,8 +41,8 @@ interface Store {
 export const useStore = create<Store>()((set, get) => ({
 	autoSwipeTimer: '',
 	isFlipToLastPage: false,
-	flippingTime: 1000,
-	flipActionGap: 2000,
+	flippingTime: flippingTime ? flippingTime: 1000,
+	flipActionGap: flipActionGap? flipActionGap: 5000,
 	bookPaths: currentBookPaths,
 	bgPaths: bgPaths,
 	currentBookPath: currentBookPaths[0],

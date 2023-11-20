@@ -10,7 +10,8 @@ interface PathConfig {
 }
 
 interface BehaviorConfig {
-	flipTime?: number;
+	flippingTime?: number;
+	flipActionGap?: number;
 	toolbar?: boolean;
 	toolbarTranslateY?: number;
 }

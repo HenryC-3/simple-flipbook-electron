@@ -1,5 +1,4 @@
 {
-	"flipTime": 1300,
-	"toolbar": true,
-	"toolbarTranslateY": 0
+	"flippingTime": 2000,
+	"flipActionGap": 10000
 }
